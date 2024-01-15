@@ -44,12 +44,13 @@ const ListMyProperty = () => {
     const [isOpen, setIsOpen] = useState<boolean >(false)
     const [isLandOpen, setIsLandOpen] = useState<boolean >(false)
     const [isLoading, setIsLoading] = useState<boolean >(true)
+    let tempArray: string[] = []
 
     const router = useRouter()
 
     const {mutate: list} = useMutation( {
         mutationFn: async () => {
-            if(!data.images.length || data.images.length === 0) {
+            if(!data.images) {
                 return
             }
 
@@ -59,35 +60,16 @@ const ListMyProperty = () => {
             })
 
             const res = await response.json()
+
+            console.log(res)
             //router.push(`http://localhost:3000/accomodations/${res}`)
         },
         onSettled: () => {
             setIsUploading(false)
-            setData({
-                images: [],
-                country: "",
-                city: "",
-                location: "",
-                bedrooms: 1,
-                bathrooms: 0,
-                rooms: 1,
-                price: 100,
-                propertyType: '',
-                landscapeType: '',
-                name: '',
-                pets: false,
-                airConditioning: false,
-                kitchen: false,
-                freeWiFi: true,
-                washingMachine: false,
-                noSmoking: true,
-                heating: false
-            })
         },
     })
 
     const uploadImages = async () => {
-        let tempArray: string[] = []
         return new Promise<void >(async (resolve, reject) => {
             
             if(imageUpload === null || !imageUpload?.length) {
@@ -104,23 +86,29 @@ const ListMyProperty = () => {
                      await uploadBytes(imageRef, item)
     
                      const url = await getDownloadURL(imageRef)
-                
-                        tempArray.push(url)                  
+                        console.log(url)
+                        tempArray.push(url)
+                        console.log("tempArray: ", tempArray) 
                     })
-    
+                    
                 await Promise.all(uploadPromises)
-                    setData({...data, images: tempArray})
+           
                 resolve()
                 
             } catch (error) {
                 console.log(error)
                 reject()
             }
+        }).then(() => {
+            setData({...data, images: tempArray})
         })
     }
 
     useEffect(() => {
-        if(!data.images.length) return
+        if(!data.images.length) {
+            console.log("useEffect na images here :(")
+            return
+        }
 
         list()
 
@@ -445,9 +433,7 @@ const ListMyProperty = () => {
                     <button className="w-full h-10 sm:h-12 hover:bg-blue-500 bg-blue-400 text-white 
                     rounded-md font-bold flex justify-center items-center mt-4 sm:mt-10" onClick={async (e) => {
                         e.preventDefault()
-                        uploadImages().then(() => {
-                            list()
-                        })
+                        uploadImages()
                     }} disabled={isUploading}>
                         {isUploading ? <span className="animate-spin"><Loader2 /></span> : 'Submit'}
                     </button>
