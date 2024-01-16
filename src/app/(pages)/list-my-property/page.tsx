@@ -1,7 +1,5 @@
 'use client'
 
-import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LandscapeTypesArray, PropertyTypesArray, propertyArray } from "@/utils/data";
 import { storage } from "@/utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -14,6 +12,10 @@ import { ListPropertyRequest } from "@/lib/validators/list";
 import { useRouter } from "next/navigation";
 import { getSession, useSession } from "next-auth/react";
 import UserInfo from "@/components/UserInfo";
+import { toast } from "@/components/ui/use-toast";
+import ListMyPropertySkeleton from "@/components/skeletons/ListMyPropertySkeleton";
+import Select from "@/components/Select";
+import AdditionalInfo from "@/components/AdditionalInfo";
 
 const ListMyProperty = () => {
     const [data, setData] = useState<ListPropertyRequest >({
@@ -37,16 +39,41 @@ const ListMyProperty = () => {
         heating: false
     })
 
-    //000556954
-
     const [imageUpload, setImageUpload] = useState<File[] >([])
     const [isUploading, setIsUploading] = useState<boolean >(false)
-    const [isOpen, setIsOpen] = useState<boolean >(false)
-    const [isLandOpen, setIsLandOpen] = useState<boolean >(false)
     const [isLoading, setIsLoading] = useState<boolean >(true)
     let tempArray: string[] = []
 
     const router = useRouter()
+
+    const checkData = async () => {
+        if(data.country.length < 2 || data.city.length < 2 || data.location.length < 2 ||  data.name.length < 2 || data.landscapeType === '' || data.propertyType === '') {
+            toast({
+                variant: 'destructive',
+                title: 'Invalid request',
+                description: 'Please provide all required information!'
+            })
+            return
+        } 
+        if(imageUpload.length < 1) {
+            toast({
+                variant: 'destructive',
+                title: 'Invalid request',
+                description: 'You have to add between 1 and 6 images'
+            })
+            return
+        } 
+        if(!data.price || data.price < 1) {
+            toast({
+                variant: 'destructive',
+                title: 'Invalid request',
+                description: 'Please provide valid price'
+            })
+            return
+        } 
+
+        await uploadImages()
+    }
 
     const {mutate: list} = useMutation( {
         mutationFn: async () => {
@@ -62,11 +89,18 @@ const ListMyProperty = () => {
             const res = await response.json()
 
             console.log(res)
-            //router.push(`http://localhost:3000/accomodations/${res}`)
+            router.push(`http://localhost:3000/accomodations/${res}`)
         },
         onSettled: () => {
             setIsUploading(false)
         },
+        onError: () => {
+            toast({
+                variant: 'destructive',
+                title: 'Something went wrong',
+                description: 'There was an error listing your property, please try again later!'
+            })
+        }
     })
 
     const uploadImages = async () => {
@@ -86,9 +120,7 @@ const ListMyProperty = () => {
                      await uploadBytes(imageRef, item)
     
                      const url = await getDownloadURL(imageRef)
-                        console.log(url)
                         tempArray.push(url)
-                        console.log("tempArray: ", tempArray) 
                     })
                     
                 await Promise.all(uploadPromises)
@@ -96,7 +128,11 @@ const ListMyProperty = () => {
                 resolve()
                 
             } catch (error) {
-                console.log(error)
+                toast({
+                    variant: 'destructive',
+                    title: 'Something went wrong',
+                    description: 'There was an error listing your property, please try again later!'
+                })
                 reject()
             }
         }).then(() => {
@@ -106,7 +142,6 @@ const ListMyProperty = () => {
 
     useEffect(() => {
         if(!data.images.length) {
-            console.log("useEffect na images here :(")
             return
         }
 
@@ -136,15 +171,11 @@ const ListMyProperty = () => {
     }, [])
 
     if (isLoading) {
-        return <div className="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-slate-50
-        opacity-80 gap-1 -z-10">
-            <p className="sm:text-3xl text-center antialiased p-2">Retrieving your information...</p>
-            <Loader2 className="w-6 h-6 sm:w-12 sm:h-12 animate-spin" />
-        </div>
+        return <ListMyPropertySkeleton />
     }
 
     return (
-        <div className="w-full h-full max-w-6xl py-2">
+        <div className="w-full h-full flex-1 py-2">
             {isUploading ? <div className="w-screen left-0 h-full z-40 fixed flex flex-col items-center justify-center bg-slate-50 top-0
             opacity-80 gap-1">
                 <p className="sm:text-2xl sm:font-semibold text-center antialiased p-2">Your listing is being created, this might take few minutes</p>
@@ -268,172 +299,46 @@ const ListMyProperty = () => {
                         </div>
                     </div>
                     </div>
-
-                   
-                    </div>
-
-                    
+                    </div>         
                 </div>
 
                 <div className=" w-full sm:w-1/2 lg:w-1/3 flex gap-0 sm:gap-4 flex-col px-1 xs:px-[15%] sm:px-2 sm:py-2">
                         <div className="w-full">
                         <p className="text-sm font-semibold text-gray-800">Property</p>
-                        <Popover open={isOpen} onOpenChange={() => setIsOpen(prev => !prev)}>
-                        <PopoverTrigger className="w-full h-10 sm:h-12 border-2 border-gray-400 rounded-md flex justify-between items-center px-2">
-                                <p>{
-                                   PropertyTypesArray.find((item) => item.value === data.propertyType)?.title 
-                                   || <span className="text-gray-400">
-                                    Select property type...
-                                   </span>
-                                }</p> 
-                                <ChevronDown />
-                        </PopoverTrigger>
-                            <PopoverContent className="">
-                                <Command >
-                                    <CommandGroup>
-                                        {PropertyTypesArray.map((item) => {
-                                            return <CommandItem
-                                            key={item.value}
-                                            value={item.value}
-                                            
-                                            onSelect={(currentValue) => {
-                                                setIsOpen(false)
-                                                //@ts-ignore
-                                                setData({...data, propertyType: item.value })
-                                            }}>
-                                                {item.value == data.propertyType && <Check className="w-5 h-5 mr-1"/>} {item.title}
-                                            </CommandItem>
-                                        })}
-                                    </CommandGroup>
-                                </Command>
-                            </PopoverContent>
-                        </Popover>
+                        <Select onChange={(value: any) => setData({
+                            ...data,
+                            propertyType: value
+                            })} data={data.propertyType} options={PropertyTypesArray}/>
                     </div>
-
                     <div className="w-full">
                         <p className="text-sm font-semibold text-gray-800">Landscape</p>
-                        <Popover open={isLandOpen} onOpenChange={() => setIsLandOpen(prev => !prev)}>
-                        <PopoverTrigger className="w-full h-10 sm:h-12 border-2 border-gray-400 rounded-md flex justify-between items-center px-2">
-                                <p>{
-                                   LandscapeTypesArray.find((item) => item.value === data.landscapeType)?.title 
-                                   || <span className="text-gray-400">
-                                    Select landscape type...
-                                   </span>
-                                }</p> 
-                                <ChevronDown />
-                        </PopoverTrigger>
-                            <PopoverContent className="">
-                                <Command>
-                                    <CommandGroup>
-                                        {LandscapeTypesArray.map((item) => {
-                                            return <CommandItem
-                                            key={item.value}
-                                            value={item.value}
-                                            onSelect={(currentValue) => {
-                                                setIsLandOpen(false)
-                                                //@ts-ignore
-                                                setData({ ...data, landscapeType: item.value })
-                                            }}>
-                                               {item.value == data.landscapeType && <Check className="w-5 h-5 mr-1"/>} {item.title}
-                                            </CommandItem>
-                                        })}
-                                    </CommandGroup>
-                                </Command>
-                            </PopoverContent>
-                        </Popover>
+                        <Select onChange={(value: any) => setData({
+                            ...data,
+                            landscapeType: value
+                            })} data={data.landscapeType} options={LandscapeTypesArray}/>
                     </div>
                 <h2 className="text-lg">Additional info</h2>
                     <div className="w-full flex flex-col gap-2">
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <PawPrint />
-                            Pets</p>
-                              <div className="flex gap-1 items-center text-lg">
-                                <p className={`text-sm ${data.pets === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, pets: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.pets === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, pets: false})}>No</p> 
-                            </div>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <Snowflake />
-                            Air Conditioning</p>
-                            <div className="flex gap-1 items-center text-lg">
-                            <p className={`text-sm ${data.airConditioning === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, airConditioning: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.airConditioning === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, airConditioning: false})}>No</p> 
-                            </div>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <CookingPot />
-                            Kitchen</p>
-                            <div className="flex gap-1 items-center text-lg">
-                            <p className={`text-sm ${data.kitchen === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, kitchen: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.kitchen === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, kitchen: false})}>No</p> 
-                            </div>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <Wifi />
-                            Free WiFi</p>
-                            <div className="flex gap-1 items-center text-lg">
-                            <p className={`text-sm ${data.freeWiFi === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, freeWiFi: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.freeWiFi === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, freeWiFi: false})}>No</p> 
-                            </div>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <WashingMachine />
-                            Washing machine</p>
-                            <div className="flex gap-1 items-center text-lg">
-                            <p className={`text-sm ${data.washingMachine === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, washingMachine: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.washingMachine === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, washingMachine: false})}>No</p> 
-                            </div>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <CigaretteOff />
-                            No smoking</p>
-                            <div className="flex gap-1 items-center text-lg">
-                            <p className={`text-sm ${data.noSmoking === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, noSmoking: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.noSmoking === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, noSmoking: false})}>No</p> 
-                            </div>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-sm sm:text-lg flex gap-2">
-                            <Heater />
-                            Heating</p>
-                            <div className="flex gap-1 items-center text-lg">
-                            <p className={`text-sm ${data.heating === true ? 'text-white bg-green-400' : 'text-green-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, heating: true})}>Yes</p> 
-                                <span>/</span> 
-                                <p className={`text-sm ${data.heating === false ? 'text-white bg-red-400' : 'text-red-400'} 
-                                rounded-sm cursor-pointer px-2`} onClick={() => setData({...data, heating: false})}>No</p> 
-                            </div>
-                    </div>
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, pets: value})}
+                        title="Pets" data={data.pets} icon={<PawPrint />} />
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, airConditioning: value})}
+                         title="Air Conditioning" data={data.airConditioning} icon={<Snowflake />} />
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, kitchen: value})}
+                         title="Kitchen" data={data.kitchen} icon={<CookingPot />} />
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, freeWiFi: value})}
+                         title="Free WiFi" data={data.freeWiFi} icon={<Wifi />} />
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, washingMachine: value})}
+                         title="Washing machine" data={data.washingMachine} icon={<WashingMachine />} />
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, noSmoking: value})}
+                         title="No smoking" data={data.noSmoking} icon={<CigaretteOff />} />
+                        <AdditionalInfo onChange={(value: boolean) => setData({...data, heating: value})}
+                         title="Heating" data={data.heating} icon={<Heater />} />
                     </div>
 
                     <button className="w-full h-10 sm:h-12 hover:bg-blue-500 bg-blue-400 text-white 
                     rounded-md font-bold flex justify-center items-center mt-4 sm:mt-10" onClick={async (e) => {
                         e.preventDefault()
-                        uploadImages()
+                        checkData()
                     }} disabled={isUploading}>
                         {isUploading ? <span className="animate-spin"><Loader2 /></span> : 'Submit'}
                     </button>

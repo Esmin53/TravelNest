@@ -7,9 +7,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex flex-col w-full min-h-screen items-center">
+    <div className="w-full min-h-screen h-full flex flex-col items-center">
         <Navbar />
-        {children}
+        <div className="flex-1 w-full flex flex-col max-w-6xl">
+          {children}
+        </div>
     </div>
   )
 }

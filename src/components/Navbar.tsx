@@ -17,7 +17,7 @@ const Navbar = () => {
     return (
         <div className="w-full flex justify-center border-b border-gray-200 shadow-sm">
             <div className="w-full max-w-6xl h-14 md:h-20 flex items-center justify-between px-2">
-                <h1 className="text-xl font-bold">TravelNest</h1>
+                <Link href='/' className="text-lg md:text-xl font-bold">TravelNest</Link>
                 <ul className="hidden sm:flex h-full flex-1 justify-center items-center gap-4 md:gap-6 text-gray-400 text-sm 
                 md:text-lg">
                     <Link href="/" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Home</Link>
@@ -35,11 +35,12 @@ const Navbar = () => {
                                 </div>
                                 <ChevronDown className="text-gray-500" />
                             </PopoverTrigger>
-                            <PopoverContent className="flex w-40 p-1 border-gray-400 -mt-2 flex-col">
+                            <PopoverContent className="flex w-52 p-2 border-gray-400 -mt-2 flex-col">
                                 <p className="text-sm text-gray-500 font-semibold">{session.user.name}</p>
                                 <hr className="h-0 border-b border-gray-200 shadow-sm my-1" />
-                                <div className="py-1 px-1 w-full rounded-md hover:bg-gray-100 cursor-pointer"
+                                <div className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer"
                                 onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>Sign Out</div>
+                                <Link href='/list-my-property' className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer">List my property</Link>
                             </PopoverContent>
                         </Popover>
                         :
