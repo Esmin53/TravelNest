@@ -5,16 +5,17 @@ import { ReactNode } from "react"
 interface BadgeProps {
     title: string
     icon: ReactNode
-    className?: string
+    containerClassName?: string
+    titleClassname?: string
 }
 
-const Badge = ({ title, icon, className }: BadgeProps) => {
+const Badge = ({ title, icon, containerClassName, titleClassname }: BadgeProps) => {
 
 
     return (
-        <div className={cn(className, "flex p-2 gap-1 bg-slate-100 rounded-md shadow-sm")}>
+        <div className={cn(containerClassName, "flex p-2 gap-1 bg-slate-100 rounded-md shadow-sm")}>
             {icon}
-            <p className="font-semibold text-gray-800">{title}</p>
+            <p className={cn(titleClassname, "font-semibold text-gray-800")}>{title}</p>
         </div>
     )
 }

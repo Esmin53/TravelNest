@@ -25,7 +25,7 @@ const Select = ({onChange,
                 <p>{
                    options.find((item) => item.value === data)?.title 
                    || <span className="text-gray-400">
-                    Select property type...
+                    Choose...
                    </span>
                 }</p> 
                 <ChevronDown />
