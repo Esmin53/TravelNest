@@ -41,14 +41,14 @@ const SearchOptions = ({ onChange, onPropertyChange, onLandscapeChange }: Search
     })
 
     return (
-        <div className="w-full">
+        <div className={`w-full ${isOpen && 'h-[13rem]'}`}>
             <div className="flex w-full justify-between px-2">
                 <p className="text-sm text-gray-800 font-semibold">More search options</p>
                 {isOpen ? <ChevronUp  onClick={() => setIsOpen(prev => !prev)} className="cursor-pointer"/> : 
                 <ChevronDown onClick={() => setIsOpen(prev => !prev)} className="cursor-pointer"/>}
             </div>
 
-            { isOpen ? <div className="flex justify-between w-full items-center py-1 flex-col sm:flex-row">
+            { isOpen ? <div className="flex justify-between w-full items-center py-1 flex-col sm:flex-row ">
                 <div className="flex lg:space-x-4 space-x-2 p-2 sm:w-fit sm:justify-start w-full justify-between xs:px-[15%] sm:px-2">
                     <PawPrint className={`${params.pets && 'text-green-400'} cursor-pointer rounded-md`} 
                     onClick={() => {
@@ -87,22 +87,28 @@ const SearchOptions = ({ onChange, onPropertyChange, onLandscapeChange }: Search
                         onChange('heating=true')
                     }}/>
                 </div>
-            <div className="h-20 flex gap-2 items-center flex-col sm:flex-row sm:w-fit w-full xs:px-[15%] sm:px-2">
-                <div className="w-full sm:w-54 lg:w-72">
+            <div className="h-20 flex gap-1 lg:gap-2 items-center flex-col sm:flex-row sm:w-fit w-full xs:px-[15%] sm:px-2">
+                <div className="flex flex-col w-full sm:w-48 lg:w-72">
+                    <p className="text-sm text-gray-800">Property type</p>
+                    <div className="w-full sm:w-48 lg:w-72">
                     <Select onChange={(value: any) => {
                         setParams({...params, propertyType: value})
                         onPropertyChange(`propertyType=${value}`)
                     }} 
                     data={params.propertyType} options={PropertyTypesArray}/>
                 </div>
-                <div className="w-full sm:w-63 lg:w-84 flex gap-1 sm:gap-2 items-center">
+                </div>
+
+                <div className="flex flex-col w-full sm:w-52 lg:w-80 ">
+                    <p className="text-sm text-gray-800">Landscape type</p>
+                    <div className="w-full sm:w-52 lg:w-80 flex gap-1 items-center">
                     <Select onChange={(value: any) => {
                         setParams({...params, landscapeType: value})
                         onLandscapeChange(`landscapeType=${value}`)
                     }} 
                     data={params.landscapeType} options={LandscapeTypesArray}/>
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-sm bg-red-400 flex justify-center items-center 
-                text-white cursor-pointer hover:bg-red-500"
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-sm  flex justify-center items-center 
+                text-red-400 cursor-pointer"
                  onClick={() => {
                     setParams({...params, propertyType: null, landscapeType: null });
                     onPropertyChange(''); 
@@ -111,6 +117,9 @@ const SearchOptions = ({ onChange, onPropertyChange, onLandscapeChange }: Search
                     <X />
                  </div>
                 </div>
+                </div>
+
+
             </div>
             </div> : null}
         </div>

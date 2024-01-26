@@ -30,7 +30,6 @@ const page = async ({params, searchParams}: AccomodationsProps) => {
 
       const data = await response.json()
 
-      console.log("RESPONSE: => ", data)
     return (
         <div className="w-full h-full flex-1 p-1 flex flex-col gap-2">
             <Search />

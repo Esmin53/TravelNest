@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SearchBar from "./SearchBar"
 import SearchOptions from "./SearchOptions"
+import { useSearchParams } from "next/navigation"
 
 
 const Search = () => {
@@ -18,8 +19,6 @@ const Search = () => {
         setParams(params + `${param}&`)
       }
     }
-
-    console.log(propertyType)
 
     return (
         <div className="w-full max-w-6xl space-y-2 flex flex-col justify-center">
