@@ -4,7 +4,7 @@ export const GET = async (req: Request) => {
 
         
         const {searchParams} = new URL(req.url)
-        let q: string;
+        let page: number = 1;
 
        let queryParamsObject: any = {};
             searchParams.forEach((value, key) => {
@@ -44,6 +44,8 @@ export const GET = async (req: Request) => {
                     queryParamsObject['rooms'] = {
                         lte: Number(value)
                     }
+                } else if(key === 'page') {
+                     value !== '0' ? page = Number(value) : page = 1;
                 } else {
                     queryParamsObject[key] = tempValue;
                 }
@@ -53,13 +55,25 @@ export const GET = async (req: Request) => {
         try {
         const accomodations = await db.property.findMany(
             {
-                where: queryParamsObject
+                where: queryParamsObject,
+                take: 20,
+                skip: (page - 1) * 20
             }
         )
 
+        const count = await db.property.count({
+            where: queryParamsObject
+        })
 
+        const pagination = {
+            totalPages: count/20,
+            currentPage: page,
+            totalResults: count
+        }
+
+        if(pagination.totalPages < 1) pagination.totalPages = 1
  
-        return new Response(JSON.stringify(accomodations), { status: 200} )
+        return new Response(JSON.stringify({accomodations, pagination}), { status: 200} )
     } catch (error) {
         console.log(error)
         return new Response(JSON.stringify(error), { status: 500 })

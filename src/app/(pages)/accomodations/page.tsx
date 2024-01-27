@@ -20,7 +20,7 @@ const page = async ({params, searchParams}: AccomodationsProps) => {
         queryString.append(key, searchParams[key]);
       }
      
-
+      console.log("Query string: ", queryString);
 
     return (
         <div className="w-full h-full flex-1 p-1 flex flex-col gap-2">
