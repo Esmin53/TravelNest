@@ -5,7 +5,7 @@ const AboutUs = () => {
 
     return (
         <div className="w-full flex flex-col justify-center max-w-6xl items-center px-2">
-            <div className="w-full max-w-6xl  h-[16rem] xs:h-[22rem] sm:h-[27rem] xs:rounded-md flex flex-col mt-1
+            <div className="w-full h-[16rem] xs:h-[22rem] sm:h-[27rem] xs:rounded-md flex flex-col mt-1
                 sm:px-12 lg:px-24 gap-2 sm:gap-3 justify-center items-center relative overflow-hidden">
                 <Image src='/banners/about.jpg' fill alt="Homepage banner" className="object-cover"/>
             </div>

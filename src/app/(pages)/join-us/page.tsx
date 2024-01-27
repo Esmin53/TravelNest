@@ -5,7 +5,7 @@ import Link from "next/link";
 const JoinUs = () => {
 
     return (
-        <div className="w-full max-w-6xl justify-center items-center gap-4 flex flex-col flex-1">
+        <div className="w-full justify-center items-center gap-4 flex flex-col flex-1">
             <div className="w-full flex flex-col-reverse lg:flex-row gap-2 z-20 p-2 px-2 lg:px-6 justify-center items-center">
                 <div className="w-full lg:w-1/2 flex flex-col gap-2 items-center xs:px-4 px-2">
                     <p className="text-3xl font-bold mb-4 text-center">Get quality bookings quickly</p>

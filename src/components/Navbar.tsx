@@ -16,7 +16,7 @@ const Navbar = () => {
 
     return (
         <div className="w-full flex justify-center border-b border-gray-200 shadow-sm">
-            <div className="w-full max-w-6xl h-14 md:h-20 flex items-center justify-between px-2">
+            <div className="w-full max-w-7xl h-14 md:h-20 flex items-center justify-between px-2">
                 <Link href='/' className="text-lg md:text-xl font-bold">TravelNest</Link>
                 <ul className="hidden sm:flex h-full flex-1 justify-center items-center gap-4 md:gap-6 text-gray-400 text-sm 
                 md:text-lg">

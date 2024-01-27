@@ -24,7 +24,7 @@ const SearchBar = ({additionalOptions, propertyType ,landscapeType}: {
     const router = useRouter();
 
     return (
-        <div className="w-full max-w-6xl xs:h-22rem sm:h-[27rem] xs:rounded-md flex flex-col mt-1
+        <div className="w-full max-w-7xl xs:h-22rem sm:h-[27rem] xs:rounded-md flex flex-col mt-1
           sm:px-12 lg:px-24 gap-2 sm:gap-3 justify-center items-center relative 
         overflow-hidden py-2">
             <Image src='/banners/homepage.jpg' fill alt="Homepage banner" className="object-cover"/>

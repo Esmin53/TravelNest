@@ -21,7 +21,7 @@ const Search = () => {
     }
 
     return (
-        <div className="w-full max-w-6xl space-y-2 flex flex-col justify-center">
+        <div className="w-full max-w-7xl space-y-2 flex flex-col justify-center">
           <SearchBar additionalOptions={params} propertyType={propertyType} landscapeType={landscapeType}/>
           <SearchOptions onChange={(value: string) => updateSearchParams(value)} 
           onPropertyChange={(value: string) => setPropertyType(value)}
