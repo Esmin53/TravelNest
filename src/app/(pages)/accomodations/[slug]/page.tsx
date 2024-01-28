@@ -1,7 +1,11 @@
 import Badge from "@/components/Badge";
-import { Button } from "@/components/ui/button";
-import { Property, User } from "@prisma/client";
+import BookProperty from "@/components/BookProperty";
+import { authOptions } from "@/lib/auth";
+import { ExtendedProperty } from "@/types/db";
 import { CigaretteOff, CookingPot, Heater, PawPrint, Snowflake, WashingMachine, Wifi } from "lucide-react";
+import { getServerSession } from "next-auth";
+import Image from "next/image";
+import Link from "next/link";
 
 interface PageProps {
     params: {
@@ -12,10 +16,12 @@ interface PageProps {
 const page = async ({params}: PageProps) => {
     
     const { slug } = params;
+    const session = await getServerSession(authOptions);
 
     const response = await fetch(`http://localhost:3000/api/accomodations/${slug}`)
 
-    const data: Property = await response.json()
+    const data: ExtendedProperty = await response.json()
+
 
     return (
         <div className="w-full h-full flex-1 p-2 flex flex-col gap-2">
@@ -58,29 +64,18 @@ const page = async ({params}: PageProps) => {
             <div className="w-full flex flex-col sm:flex-row justify-between mt-4 items-center sm:items-start">
                 <div className="flex flex-col p-2 sm:p-4 rounded-md justify-center items-center w-full bg-slate-50 shadow my-4 gap-2
                 sm:w-fit">
-                    <div className="w-28 h-28 rounded-md bg-green-400"></div>
-                    <p className="text-sm">esmin.tufekcic53@gmail.com</p>
-                    <h2 className="text-lg text-gray-800">Esmin Tufekcic</h2>
-                </div>
-                <div className="flex flex-col p-4 gap-4 shadow-sm border border-gray-200 w-full sm:w-80 min-h-60">
-                    <p>{data.price}$ <span className="text-gray-600">per night</span></p>
-                    <div className="flex w-full rounded-xl border-gray-500 border h-14">
-                        <div className="w-1/2 h-full py-2 px-4 flex flex-col cursor-pointer">
-                            <p className="text-xs text-gray-600 font-semibold">Check in</p>
-                            <p className="text-sm">17/02/2024</p>
-                        </div>
-                        <div className="h-full w-0 border-l border-gray-500" />
-                        <div className="w-1/2 h-full py-2 px-4 flex flex-col">
-                            <p className="text-xs text-gray-600 font-semibold">Check out</p>
-                            <p className="text-sm">19/02/2024</p>                            
-                        </div>
+                    <div className="w-28 h-28 rounded-md bg-green-400 relative overflow-hidden">
+                        {data.user.image && <Image src={data.user.image} fill alt="Users image" />}
                     </div>
-                    <div className="w-full flex justify-between border-b border-gray-400 pb-1">
-                    <p>2 nights</p>
-                    <p>500$</p>
-                    </div>
-                    <Button>Book me in</Button>
+                    <p className="text-sm">{data.user.email}</p>
+                    <h2 className="text-lg text-gray-800">{data.user.name}</h2>
                 </div>
+                {session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} bookings={data.bookings}/> : 
+                <div className="flex flex-col p-2 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60 justify-center items-center">
+                    <p className="text-gray-400 w-full text-start px-2">Sign in required</p>
+                    <Link href='/sign-in' className="text-white w-full h-12 bg-gray-900 rounded-sm h-10 flex justify-center items-center hover:bg-gray-800">
+                        Sign in to book this property</Link>    
+                </div>}
             </div>
         </div>
     )

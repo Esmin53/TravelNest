@@ -12,7 +12,8 @@ export const GET = async (req: Request) => {
                 id: accomodationId
             },
             include: {
-                user: true
+                user: true,
+                bookings: true
             }
         })
 

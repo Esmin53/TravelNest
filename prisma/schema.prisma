@@ -45,6 +45,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
   property      Property[]
+  
+  bookingsAsHost      Booking[] @relation("HostRelation")
+  bookingsAsCustomer  Booking[] @relation("CustomerRelation")
 }
 
 model VerificationToken {
@@ -102,4 +105,30 @@ model Property {
   hostId            String
   user              User     @relation(fields: [hostId], references: [id])
 
+  bookings          Booking[]
+
+}
+
+enum BookingStatus {
+  PENDING
+  IN_PROCESS
+  COMPLETED
+}
+
+model Booking {
+  id                String    @id @default(cuid())
+  checkInDate       DateTime
+  checkOutDate      DateTime
+  nights            Int
+  price             Int 
+  status            BookingStatus
+
+  propertyId        String
+  property          Property @relation(fields: [propertyId], references: [id])   
+
+  hostId            String
+  host              User     @relation(name: "HostRelation", fields: [hostId], references: [id])
+
+  customerId        String
+  customer          User     @relation(name: "CustomerRelation", fields: [customerId], references: [id])
 }
