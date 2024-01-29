@@ -25,6 +25,7 @@ export default async function Home() {
       <Navbar />
       <Search />
       <Featured />
+      <LandscapeType />
       <FavouriteProperties properties={favourite}/>
     </main>
   )
