@@ -38,9 +38,10 @@ const Navbar = () => {
                             <PopoverContent className="flex w-52 p-2 border-gray-400 -mt-2 flex-col">
                                 <p className="text-sm text-gray-500 font-semibold">{session.user.name}</p>
                                 <hr className="h-0 border-b border-gray-200 shadow-sm my-1" />
+                                <Link href='/account' className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer">My profile</Link>
+                                <Link href='/list-my-property' className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer">List my property</Link>                                
                                 <div className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer"
                                 onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>Sign Out</div>
-                                <Link href='/list-my-property' className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer">List my property</Link>
                             </PopoverContent>
                         </Popover>
                         :
