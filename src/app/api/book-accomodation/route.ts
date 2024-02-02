@@ -16,7 +16,7 @@ export const POST = async (req: Request) => {
 
         const body = await req.json()
 
-        const {checkInDate, checkOutDate, nights, price, hostId, propertyId} = BookPropertyValidator.parse(body);
+        const {checkInDate, checkOutDate, nights, price, hostId, propertyId, location, propertyName} = BookPropertyValidator.parse(body);
         let status: BookingStatus = 'PENDING'
 
         if(isToday(checkInDate)) {
@@ -32,7 +32,7 @@ export const POST = async (req: Request) => {
                 checkInDate,
                 checkOutDate,
                 propertyId,
-                customerId: session.user.id
+                guestId: session.user.id
             }
         })
 
@@ -48,8 +48,10 @@ export const POST = async (req: Request) => {
                 price,
                 hostId,
                 propertyId,
-                customerId: session.user.id,
-                status
+                guestId: session.user.id,
+                status,
+                propertyName,
+                location 
             }
         })
 

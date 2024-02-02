@@ -47,7 +47,7 @@ model User {
   property      Property[]
   
   bookingsAsHost      Booking[] @relation("HostRelation")
-  bookingsAsCustomer  Booking[] @relation("CustomerRelation")
+  bookingsAsGuest  Booking[] @relation("GuestRelation")
 }
 
 model VerificationToken {
@@ -122,6 +122,8 @@ model Booking {
   nights            Int
   price             Int 
   status            BookingStatus
+  propertyName      String
+  location          String
 
   propertyId        String
   property          Property @relation(fields: [propertyId], references: [id])   
@@ -129,6 +131,6 @@ model Booking {
   hostId            String
   host              User     @relation(name: "HostRelation", fields: [hostId], references: [id])
 
-  customerId        String
-  customer          User     @relation(name: "CustomerRelation", fields: [customerId], references: [id])
+  guestId        String
+  guest          User     @relation(name: "GuestRelation", fields: [guestId], references: [id])
 }

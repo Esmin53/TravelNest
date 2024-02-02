@@ -14,18 +14,24 @@ interface BookingProps {
     id: string
     hostId: string
     bookings: Booking[]
+    propertyName: string
+    location: string
 }
 
-const BookProperty = ({price, id, hostId, bookings}: BookingProps) => {
+const BookProperty = ({price, id, hostId, bookings, propertyName, location}: BookingProps) => {
 
     const [bookingInfo, setBookingInfo] = useState<{
         checkInDate: Date | undefined
         checkOutDate: Date | undefined
         nights: number
+        propertyName: string
+        location: string
     } >({
         checkInDate: undefined,
         checkOutDate: undefined,
         nights: 0,
+        propertyName: propertyName,
+        location: location
     })
 
 
