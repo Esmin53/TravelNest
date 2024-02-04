@@ -4,13 +4,16 @@ import Bookings from "@/components/Bookings";
 import { authOptions } from "@/lib/auth";
 import { Property, User } from "@prisma/client";
 import { getServerSession } from "next-auth";
+import { headers } from 'next/headers'
 
 
 const MyProfile = async () => {
     
     const session = await getServerSession(authOptions)
 
-    const response = await fetch(`http://localhost:3000/api/account/${session?.user.id}`)
+    const response = await fetch(`http://localhost:3000/api/account`, {
+        headers: headers()
+    })
 
     const data: User & {property: Property[]} = await response.json()
 

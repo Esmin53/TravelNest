@@ -10,16 +10,18 @@ interface BookingProps {
     checkOutDate: Date
     hostId: string
     status: BookingStatus
+    location: string
+    propertyName: string
 }
 
-const Booking = ({checkInDate, checkOutDate, hostId, status}: BookingProps) => {
+const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyName}: BookingProps) => {
 
     const session = useSession()
     
-    return <div className="bg-gray-100 shadow rounded-md p-2 gap-4">
+    return <div className="bg-gray-100 shadow sm:rounded-sm p-2 gap-4">
         <div className="w-full flex justify-between items-center">
-            <p className="">Bjelasnica Cabins</p>
-            <p className="">Bjelasnica</p>
+            <p>{location}</p>
+            <p>{propertyName}</p>
         </div>
         <div className="w-full flex justify-between items-center text-sm xs:text-md md:text-sm lg:text-md">
             <p >{format(checkInDate, 'PPP')}</p>
