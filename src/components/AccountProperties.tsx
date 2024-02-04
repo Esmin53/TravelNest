@@ -11,7 +11,7 @@ const AccountProperties = ({properties}: {properties: Property[]}) => {
                 return <Accomodation {...item} />
             }) : <div className="flex flex-col py-10 justify-center items-center">
                     <Ghost className="w-14 h-14 text-gray-300" />
-                    <h2 className="sm:text-lg text-gray-400 font-semibold sm:truncate text-center">You have not listed any properties so far.</h2>
+                    <h2 className="sm:text-lg text-gray-400 font-semibold sm:truncate text-center">No properies to display.</h2>
                 </div>}
         </div>
     )

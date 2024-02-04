@@ -6,7 +6,7 @@ export const GET = async (req: Request) => {
         const { pathname } = url
 
         const accountId = pathname.split('/')[3]
-        
+
         const data = await db.user.findFirst({
             where: {
                 id: accountId
@@ -15,6 +15,11 @@ export const GET = async (req: Request) => {
                 property: true
             }
         })
+
+        if(!data) {
+            return new Response(JSON.stringify('Not found'), {status: 404})
+        }
+
 
         return new Response(JSON.stringify(data), { status: 200 })
     } catch (error) {

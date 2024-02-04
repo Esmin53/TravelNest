@@ -62,15 +62,15 @@ const page = async ({params}: PageProps) => {
                 <Badge icon={<Heater className={`${data.heating ? 'text-green-400' : 'text-red-400'}`} />} title="Heating"/>
             </div>
             <div className="w-full flex flex-col sm:flex-row justify-between mt-4 items-center sm:items-start">
-                <div className="flex flex-col p-2 sm:p-4 rounded-md justify-center items-center w-full bg-slate-50 shadow my-4 gap-2
+                <Link href={`/account/${data.user.id}`} className="flex flex-col p-2 sm:p-4 rounded-md justify-center items-center w-full bg-slate-50 shadow my-4 gap-2
                 sm:w-fit">
                     <div className="w-28 h-28 rounded-md bg-green-400 relative overflow-hidden">
                         {data.user.image && <Image src={data.user.image} fill alt="Users image" />}
                     </div>
                     <p className="text-sm">{data.user.email}</p>
                     <h2 className="text-lg text-gray-800">{data.user.name}</h2>
-                </div>
-                {session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} bookings={data.bookings}/> : 
+                </Link>
+                {session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} bookings={data.bookings} propertyName={data.name} location={data.location}/> : 
                 <div className="flex flex-col p-2 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60 justify-center items-center">
                     <p className="text-gray-400 w-full text-start px-2">Sign in required</p>
                     <Link href='/sign-in' className="text-white w-full h-12 bg-gray-900 rounded-sm h-10 flex justify-center items-center hover:bg-gray-800">
