@@ -41,14 +41,14 @@ const SearchOptions = ({ onChange, onPropertyChange, onLandscapeChange }: Search
     })
 
     return (
-        <div className={`w-full ${isOpen && 'h-[13rem]'}`}>
+        <div className={`w-full ${isOpen && 'h-[13rem] md:h-fit'}`}>
             <div className="flex w-full justify-between px-2">
                 <p className="text-sm text-gray-800 font-semibold">More search options</p>
                 {isOpen ? <ChevronUp  onClick={() => setIsOpen(prev => !prev)} className="cursor-pointer"/> : 
                 <ChevronDown onClick={() => setIsOpen(prev => !prev)} className="cursor-pointer"/>}
             </div>
 
-            { isOpen ? <div className="flex justify-between w-full items-center py-1 flex-col sm:flex-row ">
+            { isOpen ? <div className="flex justify-between w-full items-center py-1 flex-col sm:flex-row px-2 md:px-0">
                 <div className="flex lg:space-x-4 space-x-2 p-2 sm:w-fit sm:justify-start w-full justify-between xs:px-[15%] sm:px-2">
                     <PawPrint className={`${params.pets && 'text-green-400'} cursor-pointer rounded-md`} 
                     onClick={() => {

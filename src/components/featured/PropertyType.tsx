@@ -12,6 +12,7 @@ const PropertyTypes = () => {
     return (
         <div className="w-full p-w flex flex-col gap-1 sm:gap-2 py-2">
         <h1 className="text-xl font-semibold sm:font-bold">Browse by property type</h1>
+        <p className="text-gray-500">Find property type that fits your style the best</p>
         {<Carousel>
             <CarouselContent className="-ml-1 h-56 xs:h-44">
                 {PropertyTypesArray.map((item, index) => {
