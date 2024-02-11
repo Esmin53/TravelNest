@@ -25,8 +25,6 @@ const MyProfile = async () => {
         <div className="w-full p-2 space-y-4">
             <AccountInfo name={session?.user.name!} email={session?.user.email!} image={session?.user.image!} />
             <div className="w-full">
-                <h1 className="text-xl font-bold">My Bookings</h1>
-                <p className="text-gray-500">Here are all your incoming bookings {session?.user.name}</p>
                 <Bookings id={session?.user.id!} />
             </div>
             <div className="w-full">
