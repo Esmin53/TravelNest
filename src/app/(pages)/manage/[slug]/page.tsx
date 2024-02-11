@@ -1,48 +1,34 @@
-"use client"
-
 import Chart from "@/components/manage/Chart";
 import ManageBookings from "@/components/manage/ManageBookings";
 import { ExtendedProperty } from "@/types/db";
-import { Booking } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { headers } from "next/headers";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const Manage = () => {
+interface AccountInfoProps {
+    params: {
+        slug: string
+    }
+}
+
+const Manage = async ({params}: AccountInfoProps) => {
+
+    const { slug } = params
     
-    const pathname = usePathname().split('/')[2];
-    const session = useSession();
+    const response = await fetch(`http://localhost:3000/api/manage/${slug}`, {
+        headers: headers(),
+        cache: 'no-store'
+    });
 
-    const [property, setProperty] = useState<ExtendedProperty  >();
-    const [bookings, setBookings] = useState<{
-        January?: number, 
-        February?: number
-    }>({})
+    const data = await response.json()
+
+    const {property, bookings} = data
 
 
-
-    const {mutate: getProperty} = useMutation({
-        mutationFn: async () => {
-            const response = await fetch(`http://localhost:3000/api/manage/${pathname}`);
-
-            const data = await response.json();
-            const { property, bookings } = data;
-
-            console.log("DATA ", data)
-            setProperty(data.property);
-            setBookings(data.bookings)
-
-        },
-
-    })
-
-    useEffect(() => {
-        getProperty()
-    }, [])
-
-    if(!property) {
+    if(!data.property) {
         return (
             <div>Loading</div>
         )
@@ -55,7 +41,7 @@ const Manage = () => {
                 <p className="text-lg text-gray-800">{property.name}</p>
             </div>
             <div className="w-full grid lg:grid-cols-3 grid-cols-2 gap-1 xs:gap-2">
-                {property.images && property.images.map((item: string, index) => {
+                {property.images && property.images.map((item: string, index: number) => {
                     return <div key={index} className="h-32 xs:h-44 sm:h-52 md:h-60 rounded-sm xs:rounded-md p-2 relative overflow-hidden">
                     <Image src={item} fill alt="Visited location image" className="object-cover md:object-fill"/>
                 </div>})}
