@@ -70,12 +70,22 @@ const page = async ({params}: PageProps) => {
                     <p className="text-sm">{data.user.email}</p>
                     <h2 className="text-lg text-gray-800">{data.user.name}</h2>
                 </Link>
-                {session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} bookings={data.bookings} propertyName={data.name} location={data.location}/> : 
+                {
+                session?.user.id === data.hostId ? 
+                <div className="flex flex-col p-2 shadow-sm border border-gray-200 w-full sm:w-96 min-h-36 sm:min-h-60 justify-center items-center gap-2">
+                    <p className="text-gray-400 w-full text-start">Manage this property or edit info</p>
+                    <Link href={`/manage/${data.id}`} className="text-white w-full bg-gray-900 rounded-sm h-10 flex justify-center items-center hover:bg-gray-800">
+                    Manage property</Link>    
+                </div> 
+                    :
+                session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} bookings={data.bookings} propertyName={data.name} location={data.location}/> 
+                : 
                 <div className="flex flex-col p-2 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60 justify-center items-center">
                     <p className="text-gray-400 w-full text-start px-2">Sign in required</p>
-                    <Link href='/sign-in' className="text-white w-full h-12 bg-gray-900 rounded-sm h-10 flex justify-center items-center hover:bg-gray-800">
+                    <Link href='/sign-in' className="text-white w-full sm:h-12 bg-gray-900 rounded-sm h-10 flex justify-center items-center hover:bg-gray-800">
                         Sign in to book this property</Link>    
-                </div>}
+                </div>
+                }
             </div>
         </div>
     )
