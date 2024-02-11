@@ -1,12 +1,10 @@
 "use client"
 
-import Bookings from "@/components/Bookings";
-import PreviewCarousel from "@/components/PreviewCarousel";
+import Chart from "@/components/manage/Chart";
 import ManageBookings from "@/components/manage/ManageBookings";
 import { ExtendedProperty } from "@/types/db";
 import { Booking } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
-import { Edit2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -18,11 +16,10 @@ const Manage = () => {
     const session = useSession();
 
     const [property, setProperty] = useState<ExtendedProperty  >();
-    const [pendingBookings, setPendingBookings] = useState<Booking[]>();
-    const [inProgressBookings, setInProgressBookings] = useState<Booking[]>();
-    const [completedBookings, setCompletedBookings] = useState<Booking[]>();
-
-    const [upadtedProperty, setUpadtedProperty] = useState();
+    const [bookings, setBookings] = useState<{
+        January?: number, 
+        February?: number
+    }>({})
 
 
 
@@ -30,9 +27,13 @@ const Manage = () => {
         mutationFn: async () => {
             const response = await fetch(`http://localhost:3000/api/manage/${pathname}`);
 
-            const data: ExtendedProperty = await response.json();
+            const data = await response.json();
+            const { property, bookings } = data;
 
-            setProperty(data);
+            console.log("DATA ", data)
+            setProperty(data.property);
+            setBookings(data.bookings)
+
         },
 
     })
@@ -59,12 +60,10 @@ const Manage = () => {
                     <Image src={item} fill alt="Visited location image" className="object-cover md:object-fill"/>
                 </div>})}
             </div>
-            <div className="w-full grid grid-cols-3 gap-8" >
-
+            <div>
+                <Chart data={bookings}/>
             </div>
-            <div className="w-full">
-            <h1 className="text-xl font-bold">Manage bookings for: {property.name}</h1>
-            </div>
+            
             <ManageBookings id={property.id} />
             
         </div>
