@@ -2,14 +2,14 @@ import Chart from "@/components/manage/Chart";
 import Dashboard from "@/components/manage/Dashboard";
 import ManageBookings from "@/components/manage/ManageBookings";
 import ManageInfo from "@/components/manage/ManageInfo";
+import DashboardSkeleton from "@/components/skeletons/DashboardSkeleton";
+import ManageBookigsSkeleton from "@/components/skeletons/ManageBookingsSkeleton";
+import { authOptions } from "@/lib/auth";
 import { ExtendedProperty } from "@/types/db";
 import { Property } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { redirect } from 'next/navigation'
 
 interface AccountInfoProps {
     params: {
@@ -18,6 +18,11 @@ interface AccountInfoProps {
 }
 
 const Manage = async ({params}: AccountInfoProps) => {
+    const session = await getServerSession(authOptions)
+
+    if(!session || !session.user) {
+        redirect('/')
+    }
 
     const { slug } = params
     
@@ -33,17 +38,23 @@ const Manage = async ({params}: AccountInfoProps) => {
 
     const {property, bookings} = data
 
+    if(data?.property?.hostId !== session.user.id) {
+        redirect('/')
+    }
 
     if(!data.property) {
         return (
-            <div>Loading</div>
+            <div className="w-full flex flex-col gap-6 p-2">
+                <DashboardSkeleton />
+                <ManageBookigsSkeleton />
+            </div>
         )
     }
 
     return (
         <div className="w-full flex flex-col gap-6 p-2">
 
-            <Dashboard data={bookings}/>  
+            <Dashboard data={bookings} name={property.name}/>  
             {property && <ManageInfo {...property}/>}          
             <ManageBookings id={property.id} />
             

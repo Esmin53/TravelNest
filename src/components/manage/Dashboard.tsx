@@ -15,10 +15,11 @@ interface DashboardProps {
             nights: number;
             upcomingBookings: number;
           };
-    }
+    },
+    name: string
 }
 
-const Dashboard = ({data}: DashboardProps) => {
+const Dashboard = ({data, name}: DashboardProps) => {
     const [dashData, setDashData] = useState({
         revenue: 0,
         bookings: 0,
@@ -101,9 +102,10 @@ const Dashboard = ({data}: DashboardProps) => {
     
 
     return (
-        <div className="w-full flex flex-col rounded-md gap-2 md:gap-4">
+        <div className="w-full flex flex-col rounded-md gap-2 md:gap-4 border-2 border-gray-300 shadow-sm p-2 xs:p-4 sm:p-6">
             <div className="w-full flex flex-col xs:flex-row justify-between xs:items-center gap-2 p-2 border-b border-gray-300">
-                <h1 className="text-xl xs:text-3xl font-bold text-gray-900">Dashboard</h1>
+                <h1 className="text-xl xs:text-3xl font-bold text-gray-900 flex items-center">Dashboard 
+                <span className="text-lg xs:text-2xl text-gray-500 font-normal px-2"> - {name}</span></h1>
                 <Select 
                 onValueChange={(value: string | null) => {
                     if(value === 'All Time') {
