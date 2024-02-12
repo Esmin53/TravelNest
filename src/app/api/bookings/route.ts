@@ -16,9 +16,17 @@ export const GET = async (req: Request) => {
        let queryParamsObject: any = {};
             searchParams.forEach((value, key) => {
                 let tempValue: string | boolean = value;
-
-
-            queryParamsObject[key] = tempValue;
+                if(key === 'from') {
+                    queryParamsObject['checkInDate'] = {
+                        gte: new Date(tempValue)
+                    }
+                } else if(key === 'to') {
+                    queryParamsObject['checkOutDate'] = {
+                        lte: new Date(tempValue)
+                    }
+                } else {
+                    queryParamsObject[key] = tempValue;
+                }
 
         });
 

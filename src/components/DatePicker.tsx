@@ -13,9 +13,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePicker({onChange, bookedDays}: {
+export function DatePicker({onChange, bookedDays, className}: {
     onChange: (value: Date | undefined) => void
-    bookedDays: Date[]
+    bookedDays?: Date[]
+    className?: String
 }) {
   const [date, setDate] = React.useState<Date>()
 
@@ -29,7 +30,7 @@ export function DatePicker({onChange, bookedDays}: {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            `${className} lg:w-[280px] justify-start text-left font-normal`,
             !date && "text-muted-foreground"
           )}
         >
