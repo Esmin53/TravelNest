@@ -8,6 +8,7 @@ import { Ghost, Loader2, Search } from "lucide-react"
 import { DatePicker } from "../DatePicker"
 import { endOfMonth,  format, startOfMonth } from "date-fns"
 import { toast } from "../ui/use-toast"
+import ManageBookigsSkeleton from "../skeletons/ManageBookingsSkeleton"
 
 interface ManageProps {
     id: string
@@ -27,6 +28,7 @@ const ManageBookings = ({id}: ManageProps) => {
     
     const [fromDate, setFromDate] = useState<Date >(startOfMonth(new Date()))
     const [toDate, setToDate] = useState<Date >(endOfMonth(new Date()))
+    const [isLoading, setIsLoading] = useState<boolean >(true)
 
     const {mutate: getBookings} = useMutation({
         mutationFn: async () => {
@@ -40,10 +42,14 @@ const ManageBookings = ({id}: ManageProps) => {
                 console.log(error)
                 toast({variant: 'destructive', title: 'Something went wrong', description: 'There was an error fetching your bookings,  please try again later!'})
             }
+        },
+        onSettled: () => {
+          setIsLoading(false)
         }
     })
 
     useEffect(() => {
+      setIsLoading(true)
          getBookings()
     }, [])
 
@@ -83,8 +89,8 @@ const ManageBookings = ({id}: ManageProps) => {
         }
       };
 
-    if(!bookings.pendingBookings) {
-        return <div>Loading</div>
+    if(isLoading) {
+        return <ManageBookigsSkeleton />
     }
 
     return (
