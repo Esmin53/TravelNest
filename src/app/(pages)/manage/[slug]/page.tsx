@@ -1,4 +1,5 @@
 import Chart from "@/components/manage/Chart";
+import Dashboard from "@/components/manage/Dashboard";
 import ManageBookings from "@/components/manage/ManageBookings";
 import { ExtendedProperty } from "@/types/db";
 import { useMutation } from "@tanstack/react-query";
@@ -28,6 +29,7 @@ const Manage = async ({params}: AccountInfoProps) => {
     const {property, bookings} = data
 
 
+    console.log(bookings)
     if(!data.property) {
         return (
             <div>Loading</div>
@@ -47,7 +49,8 @@ const Manage = async ({params}: AccountInfoProps) => {
                 </div>})}
             </div>
             <div>
-                <Chart data={bookings}/>
+                <Dashboard data={bookings}/>
+                {/* <Chart data={bookings}/> */}
             </div>
             
             <ManageBookings id={property.id} />

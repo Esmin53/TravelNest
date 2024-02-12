@@ -30,7 +30,6 @@ export const GET = async (req: Request) => {
         })
 
         let bookingsMap = new Map()
-        let testArray: any[] = []
 
         const bookings = await db.booking.findMany({
             where: {
@@ -44,12 +43,14 @@ export const GET = async (req: Request) => {
 
         for await (const item of bookings) {
             const monthName = format(item.checkInDate, 'MMMM');
-            const existingBookings = await bookingsMap.get(monthName) || 0;
-            bookingsMap.set(monthName, existingBookings + item.price);
+            const existingBookings = await bookingsMap.get(monthName) || { revenue: 0, bookings: 0, nights: 0, upcomingBookings: 0 };
+            bookingsMap.set(monthName, {
+                revenue: existingBookings.revenue + item.price,
+                bookings: existingBookings.bookings + 1,
+                nights: existingBookings.nights + item.nights,
+                upcomingBookings: item.status === 'PENDING' ? existingBookings.upcomingBookings + 1 : existingBookings.upcomingBookings + 0
+            });
         }
-    
-
-        console.log("Bookings Map: ", bookingsMap)
 
         const bookingsMapObject = Object.fromEntries([...bookingsMap]);
 
