@@ -118,18 +118,18 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
             <div className="flex xl:flex-row flex-col gap-4 flex-1 items-center xl:justify-center">
                 <div className="flex flex-col">
                     <p className="text-sm text-gray-700">Check in date</p>
-                    <DatePicker bookedDays={bookedDays}
+                    <DatePicker bookedDays={bookedDays} className='w-[96vw] xs:w-96'
                     onChange={(value: Date | undefined) => setBookingInfo({...bookingInfo, checkInDate: value})}/>
                 </div>
                 <div className="flex flex-col">
                     <p className="text-sm text-gray-700">Check out date</p>
-                    <DatePicker bookedDays={bookedDays}
+                    <DatePicker bookedDays={bookedDays} className='w-[96vw] xs:w-96'
                     onChange={(value: Date | undefined) => setBookingInfo({...bookingInfo, checkOutDate: value})} />
                 </div>
             </div>
             <div className="flex flex-col p-4 gap-4 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60">
-                <p>200$ <span className="text-gray-600">per night</span></p>
-                <div className="flex w-full rounded-xl border-gray-500 border h-14">
+                <p>${price}$ <span className="text-gray-600">per night</span></p>
+                <div className="flex w-full rounded-xl border-gray-500 border min-h-14">
                     <div className="w-1/2 h-full py-2 px-4 flex flex-col cursor-pointer">
                         <p className="text-xs text-gray-600 font-semibold">Check in</p>
                         <p className="text-sm">{bookingInfo.checkInDate ? format(bookingInfo.checkInDate, 'PPP') : 

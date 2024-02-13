@@ -1,5 +1,6 @@
 import Badge from "@/components/Badge";
 import BookProperty from "@/components/BookProperty";
+import Images from "@/components/Images";
 import { authOptions } from "@/lib/auth";
 import { ExtendedProperty } from "@/types/db";
 import { CigaretteOff, CookingPot, Heater, PawPrint, Snowflake, WashingMachine, Wifi } from "lucide-react";
@@ -29,11 +30,13 @@ const page = async ({params}: PageProps) => {
                 <h2 className="text-2xl xs:text-3xl sm:my-4 my-2 antialiased truncate">{data.name}</h2>
                 <p className=" text-gray-700 font-semibold">${data.price}/night</p>
             </div>
-            <div className="w-full h-52 xs:h-64 md:h-80 lg:h-96 rounded-2xl bg-pink-200"></div>
+            <div className="w-full h-52 xs:h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden">
+                <Images images={data.images}/>
+            </div>
             <div className="flex gap-2 items-center p-1 w-full flex-wrap">
-                <p className="text-lg font-semibold truncate">{data.location}, </p>            
+                <p className="sm:text-2xl text-xl font-semibold truncate">{data.location}, </p>            
                 <p className="xs:text-lg text-gray-700 truncate mr-auto">{data.city}</p>
-                <p className="text-lg truncate">{data.country}</p>
+                <p className="sm:text-2xl text-xl truncate">{data.country}</p>
             </div>
             <div className="flex gap-2 items-center p-1">
                 <p className="text-sm text-gray-600">{data.bedrooms} bedroom</p>
@@ -52,7 +55,7 @@ const page = async ({params}: PageProps) => {
                 
             </div>
 
-            <div className="flex flex-wrap lg:grid lg:grid-flow-col gap-2">
+            <div className="grid-rows-4 xs:grid-rows-3 sm:grid-rows-2 md:grid-rows-1 grid grid-flow-col gap-2">
                 <Badge icon={<PawPrint className={`${data.pets ? 'text-green-400' : 'text-red-400'}`} />} title="Pets"/>
                 <Badge icon={<Snowflake className={`${data.airConditioning ? 'text-green-400' : 'text-red-400'}`} />} title="Air conditioning"/>
                 <Badge icon={<CookingPot className={`${data.kitchen ? 'text-green-400' : 'text-red-400'}`} />} title="Kitchen"/>
@@ -78,7 +81,8 @@ const page = async ({params}: PageProps) => {
                     Manage property</Link>    
                 </div> 
                     :
-                session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} bookings={data.bookings} propertyName={data.name} location={data.location}/> 
+                session?.user ? <BookProperty price={data.price} id={data.id} hostId={data.hostId} 
+                bookings={data.bookings.filter((item) => item.status !== 'COMPLETED')} propertyName={data.name} location={data.location}/> 
                 : 
                 <div className="flex flex-col p-2 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60 justify-center items-center">
                     <p className="text-gray-400 w-full text-start px-2">Sign in required</p>

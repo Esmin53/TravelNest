@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { format, isAfter } from "date-fns"
+import { format, isAfter, isBefore, isSameDay } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -19,7 +19,25 @@ export function DatePicker({onChange, bookedDays, className}: {
     className?: String
 }) {
   const [date, setDate] = React.useState<Date>()
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+  const today = new Date();
 
+  const isDayDisabled = (day: Date) => {
+      // Disable booked days
+      if (bookedDays?.some(bookedDay => isSameDay(day, bookedDay))) {
+          return true;
+      }
+
+      // Disable days before today
+      return isBefore(day, today);
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+      setSelectedDate(date);
+      onChange(date);
+  };
+
+  
     React.useEffect(() => {
         onChange(date)
     }, [date])
@@ -44,7 +62,8 @@ export function DatePicker({onChange, bookedDays, className}: {
           selected={date}
           onSelect={setDate}
           initialFocus
-          disabled={bookedDays}
+          disabled={bookedDays && isDayDisabled}
+          
         />
       </PopoverContent>
     </Popover>

@@ -13,9 +13,9 @@ const Badge = ({ title, icon, containerClassName, titleClassname }: BadgeProps) 
 
 
     return (
-        <div className={cn(containerClassName, "flex p-2 gap-1 bg-slate-100 rounded-md shadow-sm")}>
+        <div className={cn(containerClassName, "flex p-1 sm:p-2 gap-1 bg-slate-100 rounded-md shadow-sm items-center")}>
             {icon}
-            <p className={cn(titleClassname, "font-semibold text-gray-800")}>{title}</p>
+            <p className={cn(titleClassname, "text-sm sm:text-md font-semibold text-gray-800")}>{title}</p>
         </div>
     )
 }
