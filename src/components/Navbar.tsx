@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, ChevronDown } from "lucide-react"
+import { ArrowRight, ChevronDown, Cog, Home, Hotel, LogOut, LucideBarChart, LucideBarChart2, LucideFileBarChart, User } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
@@ -35,13 +35,30 @@ const Navbar = () => {
                                 </div>
                                 <ChevronDown className="text-gray-500" />
                             </PopoverTrigger>
-                            <PopoverContent className="flex w-52 p-2 border-gray-400 -mt-2 flex-col">
-                                <p className="text-sm text-gray-500 font-semibold">{session.user.name}</p>
+                            <PopoverContent className="flex w-60 p-2 border-gray-400 -mt-1.5 flex-col rounded-sm">
+                                <p className="text-gray-800 px-2 text-lg">{session.user.name}</p>
                                 <hr className="h-0 border-b border-gray-200 shadow-sm my-1" />
-                                <Link href='/account' className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer">My profile</Link>
-                                <Link href='/list-my-property' className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer">List my property</Link>                                
-                                <div className="py-1 px-1 w-full rounded-md hover:bg-slate-50 cursor-pointer"
-                                onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>Sign Out</div>
+                                <Link href='/account' className="p-2 w-full  hover:bg-slate-100 cursor-pointer flex items-center justify-between">
+                                    My profile
+                                    <User className="w-5 h-5 text-gray-500"/>
+                                </Link>
+                                <Link href='/list-my-property' className="p-2 w-full  hover:bg-slate-100 cursor-pointer flex items-center justify-between">
+                                    List my property
+                                    <Hotel className="w-5 h-5 text-gray-500" />
+                                    </Link>
+                                <Link href='/manage' className="p-2 w-full  hover:bg-slate-100 cursor-pointer flex items-center justify-between">
+                                    Dashboard
+                                    <LucideFileBarChart className="w-5 h-5 text-gray-500"/>
+                                    </Link>                                
+                                <Link href='/settings' className="p-2 w-full  hover:bg-slate-100 cursor-pointer flex items-center justify-between">
+                                    Settings
+                                    <Cog className="w-5 h-5 text-gray-500"/>
+                                    </Link>                                
+                                <div className="p-2 w-full hover:bg-slate-100 cursor-pointer flex justify-between items-center"
+                                onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>
+                                    Sign Out
+                                    <LogOut className="w-5 h-5 text-gray-500" />
+                                    </div>
                             </PopoverContent>
                         </Popover>
                         :
@@ -70,7 +87,11 @@ const Navbar = () => {
                         <Link href="/join-us">List your property</Link>
                         {
                             session?.user ?
-                                <div onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>Sign Out</div>                            
+                                <>
+                                <div onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>Sign Out</div>
+                                <Link href="/manage">Dashboard</Link> 
+                                <Link href="/settings">Settings</Link> 
+                                </>                           
                              :
                                 <>
                                     <Link href="/sign-in">Sign In</Link>
