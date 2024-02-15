@@ -45,6 +45,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   property      Property[]
+  reviews       Review[]
   
   bookingsAsHost      Booking[] @relation("HostRelation")
   bookingsAsGuest  Booking[] @relation("GuestRelation")
@@ -106,6 +107,7 @@ model Property {
   user              User     @relation(fields: [hostId], references: [id])
 
   bookings          Booking[]
+  reviews           Review[]
 
 }
 
@@ -133,4 +135,19 @@ model Booking {
 
   guestId        String
   guest          User     @relation(name: "GuestRelation", fields: [guestId], references: [id])
+}
+
+model Review {
+    id          String    @id @default(cuid())
+    rating      Int
+    review      String
+    stayedFor   String
+    
+    guestId        String
+    guest          User     @relation(fields: [guestId], references: [id])
+
+    propertyId        String
+    property          Property @relation(fields: [propertyId], references: [id])   
+
+  createdAt DateTime  @default(now())
 }

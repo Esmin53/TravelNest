@@ -25,7 +25,8 @@ export const GET = async (req: Request) => {
                 hostId: session.user.id
             },
             include: {
-                user: true
+                user: true,
+                reviews: true
             }
         })
 
@@ -37,9 +38,6 @@ export const GET = async (req: Request) => {
                 propertyId
             }
         });
-
-    
-
 
         for await (const item of bookings) {
             const monthName = format(item.checkInDate, 'MMMM');

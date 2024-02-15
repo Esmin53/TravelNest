@@ -1,7 +1,10 @@
 import Badge from "@/components/Badge";
 import BookProperty from "@/components/BookProperty";
 import Images from "@/components/Images";
+import Ratings from "@/components/Ratings";
+import Reviews from "@/components/Reviews";
 import { authOptions } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { ExtendedProperty } from "@/types/db";
 import { CigaretteOff, CookingPot, Heater, PawPrint, Snowflake, WashingMachine, Wifi } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -23,6 +26,16 @@ const page = async ({params}: PageProps) => {
 
     const data: ExtendedProperty = await response.json()
 
+    const averageRating = await db.review.aggregate({
+        where: {
+            propertyId: data.id
+        },
+        _avg: {
+          rating: true,
+        },
+        _count: true
+      });
+
 
     return (
         <div className="w-full h-full flex-1 p-2 flex flex-col gap-2">
@@ -38,7 +51,10 @@ const page = async ({params}: PageProps) => {
                 <p className="xs:text-lg text-gray-700 truncate mr-auto">{data.city}</p>
                 <p className="sm:text-2xl text-xl truncate">{data.country}</p>
             </div>
-            <div className="flex gap-2 items-center p-1">
+            {averageRating._count > 0  ? 
+            <Ratings avgRating={averageRating._avg.rating || 0} count={averageRating._count || 0}/> :
+            <p className="text-lg text-gray-400">No reviews so far</p>}
+            <div className="flex gap-2 items-center p-1 xs:w-fit w-full justify-between">
                 <p className="text-sm text-gray-600">{data.bedrooms} bedroom</p>
                 <div className="w-0 h-6 shadow border-l border-gray-400" />
                 <p className="text-sm text-gray-600">{data.bathrooms} bathrooms</p>
@@ -91,6 +107,7 @@ const page = async ({params}: PageProps) => {
                 </div>
                 }
             </div>
+            <Reviews propertyId={data.id} hostId={data.hostId}/>
         </div>
     )
 }
