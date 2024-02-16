@@ -1,12 +1,13 @@
 "use client"
 
-import { CalendarIcon, MapPin, Minus, Plus, User } from "lucide-react"
+import { CalendarIcon, Loader2, MapPin, Minus, Plus, Sofa, User } from "lucide-react"
 import Image from "next/image"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import SearchTrigger from "./Trigger"
 import { Calendar } from "@/components/ui/calendar"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { DatePicker } from "./DatePicker"
 
 const SearchBar = ({additionalOptions, propertyType ,landscapeType}: {
     additionalOptions: string
@@ -34,36 +35,46 @@ const SearchBar = ({additionalOptions, propertyType ,landscapeType}: {
           <p className="truncate hidden xs:flex text-xs xs:text-sm md:text-lg text-center z-20 text-white">Travel to thousands of unique locations all across the world.</p>
           <div className="flex flex-col sm:flex-row w-full xs:w-2/3 sm:w-full gap-1 xs:gap-2 z-20 sm:p-2 sm:bg-gray-50 rounded-md 
            text-gray-800 sm:text-gray-800 p-0 px-2 xs:px-0">
-            
-            <Popover>
-              <PopoverTrigger className="sm:w-1/3 w-full shadow-md sm:shadow-sm">
-                <SearchTrigger subtitle="Location" title="Where to" icon={<MapPin />}  />
-              </PopoverTrigger>
-              <PopoverContent className="flex flex-col py-1 px-2 gap-1 sm:gap-2">
-                <input type="text" className="px-2 w-full h-10 border-b-2 border-gray-400 outline-none text-sm"
-                 placeholder="e.g. Niagara Falls" value={q} onChange={(e) => setQ(e.target.value)}/>
-                 <p className="text-sm font-semibold text-gray-700 px-1 sm:px-6">Popular Destinations</p>
-                 <div className="w-full h-56">
+            <div className="sm:w-1/3 w-full shadow-md sm:shadow-sm">
+            <div className="w-full border-2 border-gray-700 sm:border-gray-500 rounded-md h-10 sm:h-12 p-2 flex 
+        lg:gap-2 gap-1 items-center z-40 shadow-lg sm:shadow-none" onClick={() => console.log("Click")}>
+          <MapPin />
+          <span className="flex flex-col gap justify-start items-start">
+            <p className="text-xs -mb-1 sm:mb-0">Where to</p>
+                <input type="text" className="w-full outline-none text-sm bg-inherit font-semibold flex-1 placeholder:text-gray-700 sm:placeholder:text-gray-400" autoFocus 
+                 placeholder="Search for a location..." value={q} onChange={(e) => setQ(e.target.value)}/>
+              </span>
+              </div>
+            </div>
 
-                 </div>
-              </PopoverContent>
-            </Popover>
+
 
             <Popover>
               <PopoverTrigger className="z-30 sm:w-1/3 w-full shadow-md sm:shadow-sm">
               <SearchTrigger subtitle="Dates" title="Jan 7 - Jan 14" icon={<CalendarIcon />} />
               </PopoverTrigger>
-              <PopoverContent className="flex p-2 gap-1 sm:gap-2 w-fit">
-                <Calendar className="shadow" />
-                <Calendar className="shadow" />
+              <PopoverContent className="flex flex-col p-2 gap-1 sm:gap-2 w-fit">
+                <p className="text-xs text-gray-600">Not working at the moment</p>
+                <h2 className="text-lg border-b-2 border-gray-300">When will you be staying?</h2>
+                <div className="flex flex-col md:flex-row gap-1 sm:gap-2 w-fit">
+                <div className="flex flex-col">
+                    <p className="text-sm text-gray-700 font-semibold">Check in date</p>
+                    <DatePicker onChange={(value) => console.log(value)} className={'w-[90vw]'}/>
+                </div>
+                <div className="flex flex-col">
+                    <p className="text-sm text-gray-700 font-semibold">Check out date</p>
+                    <DatePicker onChange={(value) => console.log(value)} className={'w-[90vw]'}/>
+                </div>
+                </div>
               </PopoverContent>
             </Popover>
 
             <Popover>
               <PopoverTrigger className="z-30 sm:w-1/3 w-full shadow-md sm:shadow-sm">
-              <SearchTrigger subtitle="Travelers" title="2 travelers, 1 room" icon={<User />} />
+              <SearchTrigger subtitle="Rooms" title="Bedrooms, bathrooms and other..." icon={<Sofa />} />
               </PopoverTrigger>
-              <PopoverContent className="flex flex-col p-2 gap-1 sm:gap-4 w-[calc(100vw_-_1rem)] xs:w-72 -mt-1.5 sm:mt-0">
+              <PopoverContent className="flex flex-col p-2 gap-1 sm:gap-4 w-[calc(100vw_-_1rem)] xs:w-72 -mt-1.5 sm:mt-0 rounded-sm">
+                <h2 className="text-lg border-b-2 border-gray-300">Number of rooms</h2>
                 <div className="w-full flex justify-between items-center">
                   <p>Bedrooms</p>
                   <div className="flex gap-2 items-center">
@@ -99,11 +110,12 @@ const SearchBar = ({additionalOptions, propertyType ,landscapeType}: {
   
             <button className="py-2 px-4 rounded-sm hover:bg-blue-500 bg-blue-400 text-white font-semibold 
             shadow-lg sm:shadow-sm" onClick={() => {
+
                 router.push('/')
                 router.push(`http://localhost:3000/accomodations?${additionalOptions}${propertyType && propertyType + '&'}${landscapeType &&landscapeType + '&'}${q.length > 0 ? `q=${q}&` : '' }${rooms.bedrooms > 0 ? `bedrooms=${rooms.bedrooms}&` : '' }${rooms.bathrooms > 0 ? `bathrooms=${rooms.bathrooms}&` : '' }${rooms.rooms > 0 ? `rooms=${rooms.rooms}` : '' }`)
                 router.refresh()
                 }}>
-              Search
+                Search
             </button>
           </div>
         </div>
