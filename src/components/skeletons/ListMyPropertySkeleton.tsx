@@ -3,7 +3,7 @@
 const ListMyPropertySkeleton = () => {
 
     return (
-        <div className="w-full h-full max-w-6xl py-2">
+        <div className="w-full h-full max-w-7xl py-2">
           <div className="w-full flex flex-col sm:flex-row gap-4 h-full p-1 sm:p-2 justify-center">
             <div className="w-full sm:w-1/2 lg:w-2/3 flex gap-0 sm:gap-4 flex-col lg:flex-row px-0 xs:px-[15%] sm:px-2">
               <div className="w-full lg:w-1/2 p-2 flex flex-col gap-2">
