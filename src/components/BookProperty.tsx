@@ -7,7 +7,8 @@ import { differenceInDays, eachDayOfInterval, format, isAfter, isBefore, isWithi
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "@/components/ui/use-toast";
 import { Booking } from "@prisma/client"
-import { title } from "process"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
+import { Loader2 } from "lucide-react"
 
 interface BookingProps {
     price: number
@@ -20,6 +21,7 @@ interface BookingProps {
 
 const BookProperty = ({price, id, hostId, bookings, propertyName, location}: BookingProps) => {
 
+    const [isLoading, setIsLoading] = useState<boolean >(false)
     const [bookingInfo, setBookingInfo] = useState<{
         checkInDate: Date | undefined
         checkOutDate: Date | undefined
@@ -34,8 +36,6 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
         location: location
     })
 
-
-    console.log("Bookings:", bookings)
     let bookedDays: Date[] = [];
 
     bookings.forEach((item) => {
@@ -95,7 +95,7 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
                 }
 
                 const data = await response.json();
-                console.log(data)
+
 
                 toast({variant: 'default', title: 'Booking success', description: 'Your booking was created successfully'})
 
@@ -103,6 +103,9 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
                     toast({variant: 'destructive', title: 'Something went wrong',
                     description: 'There was an error booking your stay, please try again later!'})
             }
+        },
+        onSettled: () => {
+            setIsLoading(false);
         }
     })
 
@@ -117,18 +120,23 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
         <div className="flex xl:flex-1 gap-2 xl:gap-0 lg:flex-row flex-col">
             <div className="flex xl:flex-row flex-col gap-4 flex-1 items-center xl:justify-center">
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-700">Check in date</p>
+                    <p className="text-sm text-gray-700 font-semibold">Check in date</p>
                     <DatePicker bookedDays={bookedDays} className='w-[96vw] xs:w-96'
                     onChange={(value: Date | undefined) => setBookingInfo({...bookingInfo, checkInDate: value})}/>
                 </div>
                 <div className="flex flex-col">
-                    <p className="text-sm text-gray-700">Check out date</p>
+                    <p className="text-sm text-gray-700 font-semibold">Check out date</p>
                     <DatePicker bookedDays={bookedDays} className='w-[96vw] xs:w-96'
                     onChange={(value: Date | undefined) => setBookingInfo({...bookingInfo, checkOutDate: value})} />
                 </div>
             </div>
-            <div className="flex flex-col p-4 gap-4 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60">
-                <p>${price}$ <span className="text-gray-600">per night</span></p>
+            <form className="flex flex-col p-4 gap-4 shadow-sm border border-gray-200 w-full sm:w-96 min-h-60"
+            id="bookPropertyForm" onSubmit={(e) => {
+                e.preventDefault()
+                setIsLoading(true)
+                book()
+            }}>
+                <p>{price}$ <span className="text-gray-600">per night</span></p>
                 <div className="flex w-full rounded-xl border-gray-500 border min-h-14">
                     <div className="w-1/2 h-full py-2 px-4 flex flex-col cursor-pointer">
                         <p className="text-xs text-gray-600 font-semibold">Check in</p>
@@ -148,8 +156,27 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
                         }</p>
                     <p>{bookingInfo.nights && <span>{bookingInfo.nights * price}</span>}$</p>
                 </div>
-                <Button onClick={() => book()}>Book me in</Button>
-            </div>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild disabled={isLoading || !bookingInfo.checkInDate || !bookingInfo.checkOutDate}>
+                        <Button>                 
+                            {isLoading ? (<Loader2 className="animate-spin"/>) : ('Book me in')}
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Are you 100% sure you want to book this property from {bookingInfo.checkInDate && format(bookingInfo.checkInDate, 'PPP')}
+                                {" "} to {bookingInfo.checkOutDate && format(bookingInfo.checkOutDate, 'PPP')}?
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>No</AlertDialogCancel>
+                            <AlertDialogAction asChild type="submit"><button form="bookPropertyForm">Yes</button></AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </form>
         </div>
     )
 }
