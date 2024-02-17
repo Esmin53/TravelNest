@@ -26,10 +26,12 @@ interface BookingProps {
     propertyName: string
     id: string
     guestId: string
+    nights: number
+    price: number
     onChange?: (oldStatus: string, newStatus: string, booking: Booking) => void
 }
 
-const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyName, id, guestId, onChange}: BookingProps) => {
+const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyName, id, guestId, nights, price, onChange}: BookingProps) => {
 
     const session = useSession()
     const [bookingStatus, setBookingStatus] = useState(status)
@@ -76,11 +78,11 @@ const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyN
         }
     }, [status])
       
-    return <div className={`bg-gray-100 shadow sm:rounded-sm p-2 flex flex-col`}>
+    return <div className={`bg-gray-100 shadow sm:rounded-sm p-2 flex flex-col border border-gray-300`}>
         <p className="text-xs font-bold">{isError}</p>
         <div className="w-full flex justify-between items-center">
             <p>{location}</p>
-            <p>{propertyName}</p>
+            <Link href={`/accomodations/${id}`} className="font-semibold">{propertyName}</Link>
         </div>
         <div className="w-full flex justify-between items-center text-sm xs:text-md md:text-sm lg:text-md">
             <p className={`${isToday(checkInDate) && status !== 'IN_PROCESS' ? 'text-emerald-400 font-semibold' : ''}`}>{format(checkInDate, 'PPP')}</p>
@@ -115,15 +117,22 @@ const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyN
                         <SelectItem value="COMPLETED" defaultChecked={status === 'COMPLETED' && true}>Finshed</SelectItem>
                     </SelectContent>
                 </Select>
-                <button className="w-9 h-9 bg-emerald-400 hover:bg-emerald-500 rounded-sm flex items-center 
+                <button className="w-9 h-9 bg-gray-900 hover:bg-gray-800 rounded-sm flex items-center 
                 justify-center text-white" onClick={() => updateStatus()} disabled={isUpdating}>
                     {isUpdating ? <Loader2 className="animate-spin"/>  : <CheckIcon />}
                 </button>
         </div>}
-        <div className="w-full flex justify-between items-center mt-2">
+        <div className="w-full flex justify-between items-center border-b border-gray-700 py-1">
+            <p>{nights}</p>
+            <p>${price}</p>
+        </div>
+        {session.data?.user.id === hostId ? <div className="w-full flex justify-between items-center mt-2">
             <p className="text-sm">Guest ID:</p>
             <Link href={`/account/${guestId}`} className="text-sm">{guestId}</Link>
-        </div>
+        </div> : <div className="w-full flex justify-between items-center mt-2">
+            <p className="text-sm">Host ID:</p>
+            <Link href={`/account/${hostId}`} className="text-sm">{hostId}</Link>
+        </div>}
     </div>
 }
 
