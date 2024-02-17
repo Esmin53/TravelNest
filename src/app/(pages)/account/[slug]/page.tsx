@@ -19,7 +19,7 @@ const Profile = async ({params}: AccountInfoProps) => {
     return (
         <div className="w-full p-2 space-y-4">
 
-            <AccountInfo name={data?.name!} email={data?.email!} image={data?.image!} />
+            <AccountInfo id={slug}/>
             <div className="w-full">
                 <h1 className="text-xl font-bold">Listings</h1>
                 <p className="text-gray-500">All properties listed by {data?.name}</p>

@@ -23,7 +23,7 @@ const MyProfile = async () => {
 
     return (
         <div className="w-full p-2 space-y-4">
-            <AccountInfo name={session?.user.name!} email={session?.user.email!} image={session?.user.image!} />
+            <AccountInfo id={session?.user.id!} />
             <div className="w-full">
                 <Bookings id={session?.user.id!} />
             </div>
