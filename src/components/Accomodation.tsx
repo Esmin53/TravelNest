@@ -1,14 +1,20 @@
 import { Property } from "@prisma/client"
-import { Bath, Bed, Sofa } from "lucide-react"
+import { Bath, Bed, Cog, Sofa } from "lucide-react"
 import Image from "next/image"
 import PreviewCarousel from "./PreviewCarousel"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
 
-const Accomodation = ({images, name, country, location, propertyType, bedrooms, bathrooms, rooms, price, id}: Property) => {
+const Accomodation = async ({images, name, country, location, propertyType, bedrooms, bathrooms, rooms, price, id, hostId}: Property) => {
+    const session = await getServerSession(authOptions)
 
     return (
-        <div className="w-full overflow-hidden z-20 flex flex-col justify-center items-center">
+        <div className="w-full overflow-hidden z-20 flex flex-col justify-center items-center relative">
+            {session?.user.id === hostId && <Link href={`/manage/${id}`} className="absolute top-3 right-4 z-40 rounded-sm shadow-sm bg-slate-50">
+                <Cog className="w-8 h-8 text-gray-900 hover:animate-spin hover:duration-1000"/>    
+            </Link>}
             <div className="w-full h-60 xs:h-72 relative rounded-md overflow-hidden">
                 <PreviewCarousel images={images}/>
             </div>
