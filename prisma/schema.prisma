@@ -103,6 +103,8 @@ model Property {
   freeWiFi          Boolean
   noSmoking         Boolean
   heating           Boolean
+  avgRating         Float     @default(0)
+  numReviews        Int       @default(0)
 
   hostId            String
   user              User     @relation(fields: [hostId], references: [id])

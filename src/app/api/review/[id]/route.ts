@@ -55,18 +55,43 @@ export const POST = async (req: Request) => {
             days = `Stayed for over ${Math.floor(booking._sum.nights)} months`
         }
 
+        await db.$transaction(async () => {
+            const newReview = await db.review.create({
+                data: {
+                    rating,
+                    review,
+                    guestId: session.user.id,
+                    propertyId,
+                    stayedFor: days
+                }
+            })
 
-        const newReview = await db.review.create({
-            data: {
-                rating,
-                review,
-                guestId: session.user.id,
-                propertyId,
-                stayedFor: days
-            }
+            const averageRating = await db.review.aggregate({
+                where: {
+                    propertyId
+                },
+                _avg: {
+                  rating: true,
+                },
+                _count: true
+              });
+    
+              if(!averageRating._avg.rating) {
+                throw new Error('No reviews for the property.');
+              }
+
+              const updatedProperty = await db.property.update({
+                where: {
+                    id: propertyId
+                },
+                data: {
+                    avgRating: averageRating._avg.rating,
+                    numReviews: averageRating._count
+                }
+              })
         })
 
-        return new Response(JSON.stringify(newReview), { status: 200 })
+        return new Response(JSON.stringify('Review added successfully'), { status: 200 })
     } catch (error) {
         console.log(error);
         return new Response(JSON.stringify(error), { status: 500 })
@@ -112,21 +137,48 @@ export const PUT = async (req: Request) => {
             days = `Stayed for over ${Math.floor(booking._sum.nights)} months`
         }
 
+        await db.$transaction(async () => {
+            const updatedReview = await db.review.update({
+                where: {
+                    id
+                },
+                data: {
+                    rating,
+                    review,
+                    guestId: session.user.id,
+                    propertyId,
+                    stayedFor: days
+                }
+            })
 
-        const updatedReview = await db.review.update({
-            where: {
-                id
-            },
-            data: {
-                rating,
-                review,
-                guestId: session.user.id,
-                propertyId,
-                stayedFor: days
-            }
+            const averageRating = await db.review.aggregate({
+                where: {
+                    propertyId
+                },
+                _avg: {
+                  rating: true,
+                },
+                _count: true
+              });
+    
+              if(!averageRating._avg.rating) {
+                throw new Error('No reviews for the property.');
+              }
+
+              const updatedProperty = await db.property.update({
+                where: {
+                    id: propertyId
+                },
+                data: {
+                    avgRating: averageRating._avg.rating,
+                    numReviews: averageRating._count
+                }
+              })
         })
 
-        return new Response(JSON.stringify(updatedReview), { status: 200 })
+
+
+        return new Response(JSON.stringify("Review updated succesfully"), { status: 200 })
     } catch (error) {
         console.log(error);
         return new Response(JSON.stringify(error), { status: 500 })
