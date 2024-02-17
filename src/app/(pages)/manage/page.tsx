@@ -26,11 +26,15 @@ const Overview = async () => {
         property: Property[]
         bookings: {}
         rankings: []
+        bestRated: {
+            property: string
+            rating: number
+        }
     } = await response.json()
 
-    const {property, bookings, rankings} = data
+    const {property, bookings, rankings, bestRated} = data
 
-    console.log("rankigs: ", rankings)
+    console.log("bstRtd: ", bestRated)
 
     if(!data) {
         return <div className="w-full flex flex-col gap-6 p-2">
@@ -41,7 +45,7 @@ const Overview = async () => {
     return (
         <div className="w-full flex flex-col gap-6 p-2">
             {session.user.name && <Dashboard data={bookings} name={session.user.name} />}
-            <Rankings data={rankings}/>
+            <Rankings data={rankings} bestRated={bestRated}/>
             <div className="w-full">
                 <h1 className="text-xl font-bold">My Properties</h1>
                 <p className="text-gray-500">All properties listed by {session?.user.name}</p>

@@ -22,6 +22,9 @@ export const GET = async () => {
                 },
                 include: {
                     user: true
+                },
+                orderBy: {
+                    avgRating: 'desc'
                 }
             }),
             db.booking.findMany({
@@ -64,9 +67,13 @@ export const GET = async () => {
         const bookingsMapObject = Object.fromEntries([...bookingsMap]);
         const rankingsArray = Array.from(rankingsMap.values())
 
+        let bestRated = {
+            property: result[0][0].name,
+            rating: result[0][0].avgRating
+        }
         console.log("RMPARRAY: ", rankingsArray)
 
-        return new Response(JSON.stringify({property: result[0], bookings: bookingsMapObject, rankings: rankingsArray}));
+        return new Response(JSON.stringify({property: result[0], bookings: bookingsMapObject, rankings: rankingsArray, bestRated}));
     } catch (error) {
         console.log("Error: ", error);
         return new Response(JSON.stringify('Generic server error!'), { status: 500 });

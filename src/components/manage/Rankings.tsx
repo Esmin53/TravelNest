@@ -6,10 +6,14 @@ interface RankigsProps {
         revenue: number
         bookings: number
         incomingRevenue: number
-    }[]
+    }[],
+    bestRated: {
+        property: string
+        rating: number
+    }
 }
 
-const Rankings = ({data}: RankigsProps) => {
+const Rankings = ({data, bestRated}: RankigsProps) => {
 
     const highRevenue = data.reduce((max, current) => (max.revenue > current.revenue ? max : current))
     const mostVisited = data.reduce((max, current) => (max.bookings > current.bookings) ? max : current)
@@ -49,10 +53,10 @@ const Rankings = ({data}: RankigsProps) => {
                 <p className="lg:text-lg text-gray-400">Best reviewed</p>
                 
                 <div>
-                    <h2 className="text-2xl xs:text-xl lg:text-2xl font-semibold">{highRevenue.property}</h2>
+                    <h2 className="text-2xl xs:text-xl lg:text-2xl font-semibold">{bestRated.property}</h2>
                     <p className="text-sm lg:text-md flex gap-1 items-center font-semibold text-gray-700">
                         <Star className="w-5 h-5" />
-                        4.67</p>
+                        {bestRated.rating}</p>
                 </div>
 
 
