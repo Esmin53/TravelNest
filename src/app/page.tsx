@@ -1,3 +1,4 @@
+import FooterComponent from "@/components/FooterComponent";
 import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import FavouriteProperties from "@/components/featured/FavouriteProperties";
@@ -26,6 +27,7 @@ export default async function Home() {
       <LandscapeType />
       <FavouriteProperties properties={favouriteProperties}/>
       <TopRatedProperties data={topRatedProperties}/>
+      <FooterComponent />
     </main>
   )
 }

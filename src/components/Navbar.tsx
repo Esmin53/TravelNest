@@ -24,7 +24,7 @@ const Navbar = () => {
                     <Link href="/" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Home</Link>
                     <Link href="/about-us" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">About Us</Link>
                     <Link href="/blog" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Blog</Link>
-                    <Link href="/favourites" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Favourites</Link>
+                    <Link href="/join-us" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Join us</Link>
                 </ul>
                 <div className="hidden sm:flex gap-2 items-center">
                     <Link href='/join-us' className="text-sm text-gray-600 border-r px-2 hover:mb-1">List your property</Link>
