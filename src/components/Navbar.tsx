@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, ChevronDown, Cog, Home, Hotel, LogOut, LucideBarChart, LucideBarChart2, LucideFileBarChart, User } from "lucide-react"
+import { ArrowRight, ChevronDown, Cog, FileQuestion, Home, Hotel, LogIn, LogOut, LucideBarChart, LucideBarChart2, LucideFileBarChart, User, User2, UserPlus } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
@@ -12,7 +12,8 @@ import Link from "next/link"
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState<boolean >(false)
 
-    const {data: session} = useSession()
+    const {data: session, status} = useSession()
+
 
     return (
         <div className="w-full flex justify-center border-b border-gray-200 shadow-sm">
@@ -27,7 +28,13 @@ const Navbar = () => {
                 </ul>
                 <div className="hidden sm:flex gap-2 items-center">
                     <Link href='/join-us' className="text-sm text-gray-600 border-r px-2 hover:mb-1">List your property</Link>
-                    {   session ?
+                    { status === 'loading' ? <div className="py-0.5 px-1 rounded-2xl border border-gray-400 h-8 flex items-center">
+                        <div className="w-6 h-full rounded-full relative">
+                            <User2 className="text-gray-500 animate-pulse" />
+                        </div>
+                        <ChevronDown className="text-gray-500" />
+                    </div>
+                    : session ?
                         <Popover>
                             <PopoverTrigger className="py-0.5 px-1 rounded-2xl border border-gray-400 h-8 flex items-center">
                                 <div className="w-6 h-full rounded-full relative shadow">
@@ -72,30 +79,35 @@ const Navbar = () => {
                 <span onClick={() => setIsOpen(prev => !prev)}>
                     <BurgerIcon />
                 </span>
-                {isOpen ? <div className="fixed top-0 right-0 max-w-xl w-screen h-screen bg-white-50 z-40 flex flex-col bg-gray-50">
+                {isOpen ? <div className="fixed top-0 right-0 max-w-xl w-screen h-screen bg-white-50 z-40 flex flex-col bg-slate-50">
                     <div className="flex justify-between h-14 md:h-20 px-2 items-center border-b border-gray-200 shadow-sm">
                         <h2 className="text-xl font-bold">TravelNest</h2>
                         <span onClick={() => setIsOpen(false)}>
                             <ArrowRight className="w-7 h-7"/>
                         </span>
                     </div>
-                    <ul className="flex flex-col pl-6 gap-4 text-xl py-4 text-gray-400">
-                        <Link href="/" className="">Home</Link>
-                        <Link href="/about-us" className="">About Us</Link>
-                        <Link href="/blog" className="">Blog</Link>
-                        <Link href="/favourites" className="">Favourites</Link>
-                        <Link href="/join-us">List your property</Link>
+                    <ul className="flex flex-col p-4 gap-4 text-xl text-gray-400">
+                        <Link href="/" className="w-full flex items-center justify-between">Home <Home /></Link>
+                        <Link href="/about-us" className="w-full flex items-center justify-between">About Us<FileQuestion /></Link>
+
+                        <Link href="/join-us" className="w-full flex items-center justify-between">List your property <Hotel /></Link>
                         {
                             session?.user ?
                                 <>
-                                <div onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}>Sign Out</div>
-                                <Link href="/manage">Dashboard</Link> 
-                                <Link href="/settings">Settings</Link> 
+                                <Link href="/manage" className="w-full flex items-center justify-between">
+                                    Dashboard <LucideFileBarChart /></Link> 
+                                <Link href="/settings" className="w-full flex items-center justify-between">
+                                    Settings <Cog /></Link>
+                                <div onClick={() => signOut({redirect: true, callbackUrl: 'http://localhost:3000'})}
+                                className="w-full flex items-center justify-between">
+                                    Sign Out
+                                    <LogOut />
+                                    </div> 
                                 </>                           
                              :
                                 <>
-                                    <Link href="/sign-in">Sign In</Link>
-                                    <Link href="/sign-in">Create Account</Link>       
+                                    <Link href="/sign-in" className="w-full flex items-center justify-between">Create Account<UserPlus /></Link>       
+                                    <Link href="/sign-in" className="w-full flex items-center justify-between">Sign In <LogIn /></Link>                                
                                 </>
                         }
                     </ul>
