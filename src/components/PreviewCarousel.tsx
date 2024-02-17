@@ -21,8 +21,8 @@ const PreviewCarousel = ({images}: {
                     )
                 })}
             </CarouselContent>
-            <CarouselPrevious className="ml-8 xl:w-9 xl:h-9 z-30"/>
-            <CarouselNext className="mr-10 xl:w-9 xl:h-9 z-30"/>
+            <CarouselPrevious className=" -ml-1 z-30"/>
+            <CarouselNext className="z-30 mr-1"/>
     </Carousel>
     )
 }

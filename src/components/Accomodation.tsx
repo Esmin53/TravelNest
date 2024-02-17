@@ -11,14 +11,14 @@ const Accomodation = async ({images, name, country, location, propertyType, bedr
     const session = await getServerSession(authOptions)
 
     return (
-        <div className="w-full overflow-hidden z-20 flex flex-col justify-center items-center relative">
+        <Link href={`/accomodations/${id}`} className="w-full overflow-hidden z-20 flex flex-col justify-center items-center relative">
             {session?.user.id === hostId && <Link href={`/manage/${id}`} className="absolute top-3 right-4 z-40 rounded-sm shadow-sm bg-slate-50">
                 <Cog className="w-8 h-8 text-gray-900 hover:animate-spin hover:duration-1000"/>    
             </Link>}
             <div className="w-full h-60 xs:h-72 relative rounded-md overflow-hidden">
                 <PreviewCarousel images={images}/>
             </div>
-            <Link href={`/accomodations/${id}`} className="w-full overflow-hidden z-20 p-2">
+            <div className="w-full overflow-hidden z-20 p-2">
             <div className="flex justify-between items-center py-1 px-2">
                 <div className="flex gap-1 text-lg">
                     {bedrooms}
@@ -40,8 +40,8 @@ const Accomodation = async ({images, name, country, location, propertyType, bedr
             </div>
             <p className="text-gray-900 xs:text-md text-sm">{price}$ <span className="text-gray-600">per night</span></p>
 
-        </Link>
         </div>
+        </Link>
     )
 }
 
