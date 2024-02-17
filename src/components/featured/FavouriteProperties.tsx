@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const FavouriteProperties = ({properties}: {
-    properties: Property[]}) => {
+    properties: Pick<Property, 'id' | 'name' | 'location' | 'propertyType' | 'images' >[]}) => {
 
     const router = useRouter();
 
