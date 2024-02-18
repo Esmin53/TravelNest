@@ -1,11 +1,8 @@
-import Chart from "@/components/manage/Chart";
+import ErrorDialog from "@/components/Error";
 import Dashboard from "@/components/manage/Dashboard";
 import ManageBookings from "@/components/manage/ManageBookings";
 import ManageInfo from "@/components/manage/ManageInfo";
-import DashboardSkeleton from "@/components/skeletons/DashboardSkeleton";
-import ManageBookigsSkeleton from "@/components/skeletons/ManageBookingsSkeleton";
 import { authOptions } from "@/lib/auth";
-import { ExtendedProperty } from "@/types/db";
 import { Property } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { headers } from "next/headers";
@@ -38,26 +35,19 @@ const Manage = async ({params}: AccountInfoProps) => {
 
     const {property, bookings} = data
 
-    if(data?.property?.hostId !== session.user.id) {
+    if(data?.property?.hostId && data?.property?.hostId  !== session.user.id) {
         redirect('/')
     }
 
-    if(!data.property) {
-        return (
-            <div className="w-full flex flex-col gap-6 p-2">
-                <DashboardSkeleton />
-                <ManageBookigsSkeleton />
-            </div>
-        )
+    if(!data || !data?.property) {
+        return <ErrorDialog />
     }
 
     return (
-        <div className="w-full flex flex-col gap-6 p-2">
-
+        <div className="w-full flex flex-col gap-6 p-2 pb-4">
             <Dashboard data={bookings} name={property.name}/>  
             {property && <ManageInfo {...property}/>}          
             <ManageBookings id={property.id} />
-            
         </div>
     )
 }

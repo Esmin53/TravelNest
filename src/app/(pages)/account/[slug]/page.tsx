@@ -1,6 +1,8 @@
 import AccountInfo from "@/components/AccountInfo";
 import AccountProperties from "@/components/AccountProperties";
+import ErrorDialog from "@/components/Error";
 import { Property, User } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 interface AccountInfoProps {
     params: {
@@ -15,6 +17,10 @@ const Profile = async ({params}: AccountInfoProps) => {
     const response = await fetch(`http://localhost:3000/api/account/${slug}`)
 
     const data: User & {property: Property[]} = await response.json()
+
+    if(!data || !data?.id) {
+        return <ErrorDialog />
+    }
 
     return (
         <div className="w-full p-2 space-y-4">
