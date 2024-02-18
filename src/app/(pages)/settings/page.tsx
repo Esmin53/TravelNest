@@ -15,7 +15,11 @@ const Settings = async () => {
     
     return (
         <div className="w-full flex flex-col gap-6 p-2">
-            {user && <EditProfileInfo data={user}/>}
+            <div className="flex flex-col">
+                <h1 className="text-xl font-bold">Account info</h1>
+                <p className="text-gray-500 mb-2">Update personal info for your account</p>
+                {user && <EditProfileInfo data={user}/>}
+            </div>
         </div>
     )
 }
