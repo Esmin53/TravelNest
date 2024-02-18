@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, ChevronDown, Cog, FileQuestion, Home, Hotel, LogIn, LogOut, LucideBarChart, LucideBarChart2, LucideFileBarChart, User, User2, UserPlus } from "lucide-react"
+import { ArrowRight, ChevronDown, Cog, FileQuestion, Home, Hotel, LogIn, LogOut, LucideFileBarChart, User, User2, UserPlus } from "lucide-react"
 import { signOut, useSession } from "next-auth/react"
 import { useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
@@ -8,12 +8,10 @@ import UserAvatar from "./UserAvatar"
 import BurgerIcon from "./BurgerIcon"
 import Link from "next/link"
 
-
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState<boolean >(false)
 
     const {data: session, status} = useSession()
-
 
     return (
         <div className="w-full flex justify-center border-b border-gray-200 shadow-sm">
@@ -21,13 +19,13 @@ const Navbar = () => {
                 <Link href='/' className="text-lg md:text-xl font-bold">TravelNest</Link>
                 <ul className="hidden sm:flex h-full flex-1 justify-center items-center gap-4 md:gap-6 text-gray-400 text-sm 
                 md:text-lg">
-                    <Link href="/" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Home</Link>
-                    <Link href="/about-us" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">About Us</Link>
-                    <Link href="/blog" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Blog</Link>
-                    <Link href="/join-us" className="cursor-pointer rounded-sm hover:bg-gray-50 py-1 md:px-2">Join us</Link>
+                    <Link href="/" className="cursor-pointer rounded-sm hover:scale-110 hover:duration-700 hover:ease-in-out py-1 md:px-2">Home</Link>
+                    <Link href="/about-us" className="cursor-pointer rounded-sm hover:scale-110 hover:duration-700 hover:ease-in-out py-1 md:px-2">About Us</Link>
+                    <Link href="/blog" className="cursor-pointer rounded-sm hover:scale-110 hover:duration-700 hover:ease-in-out py-1 md:px-2">Blog</Link>
+                    <Link href="/join-us" className="cursor-pointer rounded-sm hover:scale-110 hover:duration-700 hover:ease-in-out py-1 md:px-2">Join us</Link>
                 </ul>
                 <div className="hidden sm:flex gap-2 items-center">
-                    <Link href='/join-us' className="text-sm text-gray-600 border-r px-2 hover:mb-1">List your property</Link>
+                    <Link href='/join-us' className="text-sm text-gray-600 border-r px-2 hover:mb-1 hover:duration-300 hover:ease-in-out">List your property</Link>
                     { status === 'loading' ? <div className="py-0.5 px-1 rounded-2xl border border-gray-400 h-8 flex items-center">
                         <div className="w-6 h-full rounded-full relative">
                             <User2 className="text-gray-500 animate-pulse" />
@@ -70,9 +68,10 @@ const Navbar = () => {
                         </Popover>
                         :
                         <div className="flex gap-2 items-center">
-                            <Link href='/sign-in' className="text-sm text-blue-500 px-4 py-2 md:py-3 rounded-sm hover:bg-blue-500 hover:text-white">Sign In</Link>
+                            <Link href='/sign-in' className="text-sm text-blue-500 px-4 py-2 md:py-3 rounded-sm hover:bg-blue-500 hover:text-white hover:duration-500 hover:ease-in-out"
+                            >Sign In</Link>
                             <Link href='/sign-in' className="text-sm text-blue-500 px-4 py-2 md:py-3 border border-blue-500 rounded-md
-                          hover:text-white hover:bg-blue-500">Create Account</Link>
+                          hover:text-white hover:bg-blue-500 hover:duration-500 hover:ease-in-out">Create Account</Link>
                         </div>
                     }
                 </div>
