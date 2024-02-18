@@ -42,36 +42,49 @@ export const GET = async () => {
             })
         ])
 
-        for await (const item of result[1]) {
-            const monthName = format(item.checkInDate, 'MMMM');
-            const existingBookings = await bookingsMap.get(monthName) || { revenue: 0, bookings: 0, nights: 0, upcomingBookings: 0 };
-            bookingsMap.set(monthName, {
-                revenue: existingBookings.revenue + item.price,
-                bookings: existingBookings.bookings + 1,
-                nights: existingBookings.nights + item.nights,
-                upcomingBookings: item.status === 'PENDING' ? existingBookings.upcomingBookings + 1 : existingBookings.upcomingBookings + 0
-            });
-
-            const existingRanking = await rankingsMap.get(item.property.id) || { property: item.property.name, revenue: 0,
-                 bookings: 0, incomingRevenue: 0}
-            rankingsMap.set(item.property.id, {
-                property: item.property.name,
-                revenue: existingRanking.revenue + item.price,
-                bookings: existingRanking.bookings + 1,
-                incomingRevenue: item.status === 'PENDING' ? existingRanking.incomingRevenue + item.price : existingRanking.incomingRevenue 
-            })
+        let bestRated = {
+            property: result[0][0]?.name,
+            rating: result[0][0]?.avgRating
         }
 
-
+        if(!result[1].length || !result[0].length) {
+            const monthName = format(new Date(), 'MMMM');
+            bookingsMap.set(monthName, {
+                revenue: 0,
+                bookings: 0,
+                nights: 0,
+                upcomingBookings: 0
+            })
+            rankingsMap.set('no_data', {
+                property: 0,
+                revenue: 0,
+                bookings: 0,
+                incomingRevenue: 0 
+            })
+        } else {
+            for await (const item of result[1]) {
+                const monthName = format(item.checkInDate, 'MMMM');
+                const existingBookings = await bookingsMap.get(monthName) || { revenue: 0, bookings: 0, nights: 0, upcomingBookings: 0 };
+                bookingsMap.set(monthName, {
+                    revenue: existingBookings.revenue + item.price,
+                    bookings: existingBookings.bookings + 1,
+                    nights: existingBookings.nights + item.nights,
+                    upcomingBookings: item.status === 'PENDING' ? existingBookings.upcomingBookings + 1 : existingBookings.upcomingBookings + 0
+                });
+    
+                const existingRanking = await rankingsMap.get(item.property.id) || { property: item.property.name, revenue: 0,
+                     bookings: 0, incomingRevenue: 0}
+                    rankingsMap.set(item.property.id, {
+                    property: item.property.name,
+                    revenue: existingRanking.revenue + item.price,
+                    bookings: existingRanking.bookings + 1,
+                    incomingRevenue: item.status === 'PENDING' ? existingRanking.incomingRevenue + item.price : existingRanking.incomingRevenue 
+                })
+            }
+        }
 
         const bookingsMapObject = Object.fromEntries([...bookingsMap]);
         const rankingsArray = Array.from(rankingsMap.values())
-
-        let bestRated = {
-            property: result[0][0].name,
-            rating: result[0][0].avgRating
-        }
-        console.log("RMPARRAY: ", rankingsArray)
 
         return new Response(JSON.stringify({property: result[0], bookings: bookingsMapObject, rankings: rankingsArray, bestRated}));
     } catch (error) {

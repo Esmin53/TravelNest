@@ -15,7 +15,7 @@ interface DashboardProps {
             nights: number;
             upcomingBookings: number;
           };
-    },
+    } ,
     name: string
 }
 
@@ -39,16 +39,14 @@ const Dashboard = ({data, name}: DashboardProps) => {
         upcomingBookings: 0
     })
 
-    const numericData = Object.fromEntries(
-        Object.entries(data).map(([month, { revenue }]) => [month, revenue])
+    const numericData = data && Object?.fromEntries(
+        Object?.entries(data)?.map(([month, { revenue }]) => [month, revenue])
     );
 
     const getAnalytics = (month: string) => {
         const monthNumber = getMonth(new Date(`${month} 1, 2024`)) - 1
 
         const monthName = format(new Date(2022, monthNumber), 'MMMM');
-        console.log(monthName); 
-
         if(data.hasOwnProperty(monthName)) {
             setAnalytics({
                 revenue: Object.entries(data).reduce(
@@ -75,6 +73,9 @@ const Dashboard = ({data, name}: DashboardProps) => {
     }
 
     const filterData = (period: string | null) => {
+        if(!data) {
+            return
+        }
         setDashData({
             revenue: Object.entries(data).reduce(
                 (acc, [month, { revenue }]) => (period ? (month === period ? acc + revenue : acc) : acc + revenue),
@@ -116,13 +117,13 @@ const Dashboard = ({data, name}: DashboardProps) => {
                         value && getAnalytics(value)
                     }
                 }}>
-                    <SelectTrigger className="w-full xs:w-56 border-2 border-gray-300 shadow-sm rounded-none xs:rounded-md">
+                    <SelectTrigger className="w-full xs:w-56 border-2 border-gray-300 shadow-sm rounded-none xs:rounded-md" disabled={!data}>
                         <SelectValue placeholder="All time" />
                     </SelectTrigger>
                     <SelectContent>
                     <SelectItem value='All Time'>All time</SelectItem>
-                        {Object.keys(data).map((monthName) => {
-                            return <SelectItem value={monthName}>{monthName}</SelectItem>                            
+                        {data && Object.keys(data).map((monthName) => {
+                            return <SelectItem value={monthName} key={monthName}>{monthName}</SelectItem>                            
                         })}
 
                     </SelectContent>
