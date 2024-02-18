@@ -4,6 +4,7 @@ import { Property } from "@prisma/client";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel"
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Ghost } from "lucide-react";
 
 const FavouriteProperties = ({properties}: {
     properties: Pick<Property, 'id' | 'name' | 'location' | 'propertyType' | 'images' >[]}) => {
@@ -14,7 +15,7 @@ const FavouriteProperties = ({properties}: {
         <div className="max-w-7xl w-full p-w flex flex-col gap-2 px-2 sm:px-0">
                  <h1 className="text-xl font-bold">Accomodations guests love</h1>
                  <p className="text-gray-500">Most popular accomodations by number of stays</p>
-                 <Carousel>
+                 {properties.length ? <Carousel>
                     <CarouselContent className="-ml-1 h-64 xs:h-72">
                         {properties.map((item) => {
                             return <CarouselItem className="sm:basis-1/2 lg:basis-1/3 p-1 cursor-pointer" key={item.id} 
@@ -33,7 +34,15 @@ const FavouriteProperties = ({properties}: {
                     </CarouselContent>
                     <CarouselPrevious />
                     <CarouselNext />
-                </Carousel>
+                </Carousel> : <div className="w-full flex flex-col justify-center items-center relative">
+                        <Ghost className="w-28 h-28 text-gray-300 duration-1000 motion-safe:animate-bounce"/>
+                        <p className=" text-gray-300 text-sm text-center"> 
+                            No Sign of Accomodations Around Here!
+                        </p>
+                        <span className="text-lg font-semibold text-gray-300">
+                            Data Ghost Town:
+                        </span>
+                    </div>}
             </div>
     )
 }

@@ -71,7 +71,7 @@ const Navbar = () => {
                         :
                         <div className="flex gap-2 items-center">
                             <Link href='/sign-in' className="text-sm text-blue-500 px-4 py-2 md:py-3 rounded-sm hover:bg-blue-500 hover:text-white">Sign In</Link>
-                            <Link href='/signin' className="text-sm text-blue-500 px-4 py-2 md:py-3 border border-blue-500 rounded-md
+                            <Link href='/sign-in' className="text-sm text-blue-500 px-4 py-2 md:py-3 border border-blue-500 rounded-md
                           hover:text-white hover:bg-blue-500">Create Account</Link>
                         </div>
                     }

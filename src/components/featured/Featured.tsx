@@ -1,3 +1,4 @@
+import { Ghost } from "lucide-react";
 import PropertyTypes from "./PropertyType"
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +19,15 @@ const Featured = async ({data}: {data: string[]}) => {
                     </Link>
                     })}
                  </div>
+                 {!data.length && <div className="w-full flex flex-col justify-center items-center relative">
+                        <Ghost className="w-28 h-28 text-gray-300 animate-bounce duration-1000"/>
+                        <p className=" text-gray-300 text-sm text-center"> 
+                            No Sign of Accomodations Around Here!
+                        </p>
+                        <span className="text-lg font-semibold text-gray-300">
+                            Data Ghost Town:
+                        </span>
+                    </div>}
             </div>
             <PropertyTypes /> 
 

@@ -1,5 +1,5 @@
 import { Property } from "@prisma/client"
-import { Star } from "lucide-react"
+import { Ghost, Star } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -32,6 +32,15 @@ const TopRatedProperties = ({data}: {
                         })}
 
                     </div>
+                    { !data?.length ? <div className="w-full flex flex-col justify-center items-center relative py-4">
+                        <Ghost className="w-28 h-28 text-gray-300 duration-1000 motion-safe:animate-bounce"/>
+                        <p className=" text-gray-300 text-sm text-center"> 
+                            No Sign of Accomodations Around Here!
+                        </p>
+                        <span className="text-lg font-semibold text-gray-300">
+                            Data Ghost Town:
+                        </span>
+                    </div> : null }
                 </div>
             </div>
 
