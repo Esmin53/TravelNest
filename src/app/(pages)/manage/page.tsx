@@ -18,7 +18,7 @@ const Overview = async () => {
         redirect('/');
     }
 
-    const response = await fetch('http://localhost:3000/api/manage', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/manage`, {
         headers: headers(),
         cache: 'no-store'
     });

@@ -26,7 +26,7 @@ const EditProfileInfo = ({data}: AccountProps) => {
                     return
                 }
 
-                const response = await fetch('http://localhost:3000/api/account', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/account`, {
                     method: 'PUT',
                     body: JSON.stringify({
                         name: newName
@@ -34,7 +34,6 @@ const EditProfileInfo = ({data}: AccountProps) => {
                 })
 
                 const resData = await response.json()
-                console.log(resData)
 
                 toast({variant: 'default', title: 'Update succesful', description: 'Your username has been changed successfully'})
             } catch (error) {

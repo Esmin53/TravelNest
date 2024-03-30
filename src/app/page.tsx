@@ -9,7 +9,7 @@ import { Property } from "@prisma/client";
 
 
 export default async function Home() {
-  const response = await fetch('http://localhost:3000/api/homepage', {cache: 'no-store'})
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/homepage`, {cache: 'no-store'})
 
   const {favouriteProperties,
     trendingDestinations,

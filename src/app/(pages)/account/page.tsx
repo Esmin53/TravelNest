@@ -11,7 +11,7 @@ const MyProfile = async () => {
     
     const session = await getServerSession(authOptions)
 
-    const response = await fetch(`http://localhost:3000/api/account`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/account`, {
         headers: headers()
     })
 

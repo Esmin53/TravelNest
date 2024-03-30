@@ -55,7 +55,7 @@ const ReviewForm = ({propertyId, alreadyReviewed}: { propertyId: string, already
                     toast({variant: 'destructive', title: 'No review', description: 'Your review must contain atleast 3 characters!'});                    
                 }
 
-                const response = await fetch(`http://localhost:3000/api/review/${propertyId}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/review/${propertyId}`, {
                     method: 'PUT',
                     body: JSON.stringify({
                         rating,

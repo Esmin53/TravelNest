@@ -81,15 +81,14 @@ const ListMyProperty = () => {
                 return
             }
 
-            const response = await fetch('http://localhost:3000/api/list-property', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/list-property`, {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
 
             const res = await response.json()
 
-            console.log(res)
-            router.push(`http://localhost:3000/accomodations/${res}`)
+            router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/accomodations/${res}`)
         },
         onSettled: () => {
             setIsUploading(false)
@@ -147,14 +146,14 @@ const ListMyProperty = () => {
 
         list()
 
-    }, [data.images])
+    }, [data.images, list])
 
     useEffect(() => {
         if(data.rooms < 0) setData({...data, rooms: 0})
         if(data.bedrooms < 0) setData({...data, bedrooms: 0})
         if(data.bathrooms < 0) setData({...data, bathrooms: 0})
 
-    }, [data.bedrooms, data.bathrooms, data.rooms])
+    }, [data.bedrooms, data.bathrooms, data.rooms, data])
 
     useEffect(() => {
         const checkSession = async () => {
@@ -168,7 +167,7 @@ const ListMyProperty = () => {
 
         checkSession()
 
-    }, [])
+    }, [router])
 
     if (isLoading) {
         return <ListMyPropertySkeleton />
@@ -233,7 +232,9 @@ const ListMyProperty = () => {
                     justify-center items-center relative grid grid-cols-3 grid-rows-2 p-1 gap-1">
                         { imageUpload?.map((item, index) => {
                             const url = URL.createObjectURL(item)
-                            return <img src={url} key={index} className="w-full h-full rounded-sm object-center" />
+                            return <div className="relative w-full h-full" key={index}>
+                                <Image fill alt="Uploaded image" src={url} className="rounded-sm object-cover" />
+                            </div> 
                         })}
                              
                     </div>

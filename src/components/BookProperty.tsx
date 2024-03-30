@@ -80,7 +80,7 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
                    return
                 }
 
-                const response = await fetch('http://localhost:3000/api/book-accomodation', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/book-accomodation`, {
                     method: 'POST',
                     body: JSON.stringify({
                         ...bookingInfo,
@@ -114,7 +114,7 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
             setBookingInfo({...bookingInfo, nights: differenceInDays(bookingInfo.checkOutDate, bookingInfo.checkInDate)})
         }
 
-    }, [bookingInfo.checkInDate, bookingInfo.checkOutDate])
+    }, [])
 
     return (
         <div className="flex xl:flex-1 gap-2 xl:gap-0 lg:flex-row flex-col">

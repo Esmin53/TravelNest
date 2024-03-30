@@ -42,7 +42,7 @@ const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyN
         mutationFn: async () => {
             try {
                 setIsUpdating(true)
-                const response = await fetch('http://localhost:3000/api/bookings', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookings`, {
                     method: 'PUT',
                     body: JSON.stringify({
                         id,
@@ -76,7 +76,7 @@ const Booking = ({checkInDate, checkOutDate, hostId, status, location, propertyN
         } else if(isAfter(new Date(), checkInDate) && isBefore(new Date(), checkOutDate) && status !== 'IN_PROCESS') {
             setIsError('This booking is suposed to be in process!')
         }
-    }, [status])
+    }, [status, checkInDate, checkOutDate])
       
     return <div className={`bg-gray-100 shadow sm:rounded-sm p-2 flex flex-col border border-gray-300`}>
         <p className="text-xs font-bold">{isError}</p>

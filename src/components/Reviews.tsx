@@ -9,7 +9,7 @@ import { Ghost } from "lucide-react"
 const Reviews = async ({propertyId, hostId}: { propertyId: string, hostId: string}) => {
     const session = await getServerSession(authOptions)
     
-    const response = await fetch(`http://localhost:3000/api/review/${propertyId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/review/${propertyId}`, {
         cache: 'no-store'
     })
 

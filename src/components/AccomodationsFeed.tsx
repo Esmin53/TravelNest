@@ -8,7 +8,7 @@ const AccomodationsFeed = async ({queryString}: {
     queryString: string
 }) => {
 
-    const response = await fetch(`http://localhost:3000/api/accomodations?${queryString}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/accomodations?${queryString}`, {
         cache: 'no-store'
     })
 
@@ -23,7 +23,7 @@ const AccomodationsFeed = async ({queryString}: {
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {
                 accomodations && accomodations.map((item: Property) => {
-                    return <Accomodation {...item}/>
+                    return <Accomodation key={item.id} {...item}/>
                 })
             }
         </div>

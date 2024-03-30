@@ -119,7 +119,7 @@ const ManageBookings = ({id}: ManageProps) => {
                  <p className="text-gray-500">Here are the guests who are currently staying at your accomodation:</p>
                 <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {bookings?.inProcessBookings?.length ? bookings.inProcessBookings.map((booking: BookingType) => {
-                        return <Booking {...booking} onChange={(oldStatus: string,
+                        return <Booking key={booking.id} {...booking} onChange={(oldStatus: string,
                             newStatus: string, booking: BookingType) => handleChange(oldStatus, newStatus, booking)}/>
                     }) : <div className="flex flex-col w-full items-center py-2">
                             <Ghost className="w-12 h-12 text-gray-400"/>
@@ -132,7 +132,7 @@ const ManageBookings = ({id}: ManageProps) => {
                  <p className="text-gray-500">Here are the bookings that will stay at your place in the future:</p>
                 <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {bookings?.pendingBookings?.length ? bookings?.pendingBookings?.map((booking: BookingType) => {
-                        return <Booking {...booking} onChange={(oldStatus: string, 
+                        return <Booking key={booking.id} {...booking} onChange={(oldStatus: string, 
                             newStatus: string, booking: BookingType) => handleChange(oldStatus, newStatus, booking)} />
                     }) : <div className="flex flex-col w-full items-center py-2">
                     <Ghost className="w-12 h-12 text-gray-400"/>
@@ -145,7 +145,7 @@ const ManageBookings = ({id}: ManageProps) => {
                  <p className="text-gray-500">Here are the guests who have stayed at your place in the past:</p>
                 <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {bookings?.completedBookings?.length ? bookings.completedBookings.map((booking: BookingType) => {
-                        return <Booking {...booking} onChange={(oldStatus: string, 
+                        return <Booking key={booking.id} {...booking} onChange={(oldStatus: string, 
                             newStatus: string, booking: BookingType) => handleChange(oldStatus, newStatus, booking)}/>
                     }) : <div className="flex flex-col w-full items-center py-2">
                     <Ghost className="w-12 h-12 text-gray-400"/>

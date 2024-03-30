@@ -40,7 +40,7 @@ export function DatePicker({onChange, bookedDays, className}: {
   
     React.useEffect(() => {
         onChange(date)
-    }, [date])
+    }, [date, onChange])
 
   return (
     <Popover>

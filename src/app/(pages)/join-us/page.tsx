@@ -9,7 +9,7 @@ const JoinUs = () => {
             <div className="w-full py-2 sm:py-6 flex justify-center items-center flex-col gap-4 sm:gap-6 p-2">
                 <h1 className="text-center text-3xl sm:text-4xl text-gray-900 font-semibold">
                 Join Travelnest</h1>
-                <p className="sm:text-lg w-full sm:w-4/5 md:w-3/5 text-center">Welcome to the heart of Travelnest. Join us on a journey where connections are forged, experiences are shared, and possibilities are endless. Whether you're a traveler seeking unique stays, a property owner ready to showcase your space, or someone passionate about transforming the way we explore the world, your place is here.</p>
+                <p className="sm:text-lg w-full sm:w-4/5 md:w-3/5 text-center">Welcome to the heart of Travelnest. Join us on a journey where connections are forged, experiences are shared, and possibilities are endless. Whether you&apos;re a traveler seeking unique stays, a property owner ready to showcase your space, or someone passionate about transforming the way we explore the world, your place is here.</p>
             </div>
             <div className="w-full flex flex-col gap-4 p-4">
                 <div className="w-full h-56 xs:h-72 sm:h-96 relative rounded-md overflow-hidden">
@@ -26,7 +26,7 @@ const JoinUs = () => {
                     </div>
                     <div className="flex flex-col gap-2">
                         <h2 className="font-semibold text-log">Effortless Achievement in Three Easy Phases</h2>
-                        <p className=" text-gray-500">Whether you're a seasoned host or just beginning your hosting adventure, our intuitive tools and clear guidance make the entire experience effortless. Enjoy the simplicity of managing your property and connecting with guests globally.</p>
+                        <p className=" text-gray-500">Whether you&apos;re a seasoned host or just beginning your hosting adventure, our intuitive tools and clear guidance make the entire experience effortless. Enjoy the simplicity of managing your property and connecting with guests globally.</p>
                     </div>
 
                 </div>
@@ -45,7 +45,7 @@ const JoinUs = () => {
                     </div>
                     <div className="flex gap-2 items-start w-full sm:w-5/6 lg:w-3/4 my-2">
                         <CheckCircle className="w-7 h-7"/>
-                        <p className="flex-1">From confirming bookings to facilitating hassle-free arrivals and departures, we've got you covered</p>
+                        <p className="flex-1">From confirming bookings to facilitating hassle-free arrivals and departures, we&apos;ve got you covered</p>
                     </div>
                     <Link href='/list-my-property' className="w-full sm:w-96 h-10 sm:h-12 bg-blue-400 hover:bg-blue-500 font-semibold rounded-md
                      text-white mt-4 flex justify-center items-center">Get started</Link >

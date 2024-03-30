@@ -14,7 +14,7 @@ const Profile = async ({params}: AccountInfoProps) => {
 
     const { slug } = params
 
-    const response = await fetch(`http://localhost:3000/api/account/${slug}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/account/${slug}`)
 
     const data: User & {property: Property[]} = await response.json()
 

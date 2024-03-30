@@ -17,12 +17,12 @@ interface PageProps {
     }
   }
 
-const page = async ({params}: PageProps) => {
+const Page = async ({params}: PageProps) => {
     
     const { slug } = params;
     const session = await getServerSession(authOptions);
 
-    const response = await fetch(`http://localhost:3000/api/accomodations/${slug}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/accomodations/${slug}`)
 
     const data: ExtendedProperty = await response.json()
 
@@ -105,4 +105,4 @@ const page = async ({params}: PageProps) => {
     )
 }
 
-export default page
+export default Page

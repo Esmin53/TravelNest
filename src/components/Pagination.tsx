@@ -27,7 +27,7 @@ const Pagination = ({redirectUri, totalPages, currentPage}: PaginationProps) => 
         setUpdatedRedirectUri(updatedRedirectUri.replace(pageRegex, `page=${pageNumber}`));
 
 
-        router.push(`http://localhost:3000/accomodations?${updatedRedirectUri}page=${pageNumber}`);
+        router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/accomodations?${updatedRedirectUri}page=${pageNumber}`);
     }
 
     let pages: ReactNode[] = [];
@@ -39,7 +39,7 @@ const Pagination = ({redirectUri, totalPages, currentPage}: PaginationProps) => 
         pages.push(
             <div className={`sm:text-md text-sm w-8 sm:w-10 md:w-12 h-8 sm:h-10 md:h-12 border-2 border-blue-400 flex justify-center items-center cursor-pointer
              ${i === currentPage && 'bg-blue-400 text-white'}`}
-            onClick={() => redirect(i)}>{i}</div>
+            onClick={() => redirect(i)} key={currentPage}>{i}</div>
             )
     }
 

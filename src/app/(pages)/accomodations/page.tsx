@@ -10,17 +10,13 @@ interface AccomodationsProps {
     }
 }
 
-const page = async ({params, searchParams}: AccomodationsProps) => {
-
-    console.log("SearchParams: ", searchParams)
+const Page = async ({params, searchParams}: AccomodationsProps) => {
 
     const queryString = new URLSearchParams()
 
     for (const key in searchParams) {
         queryString.append(key, searchParams[key]);
       }
-     
-      console.log("Query string: ", queryString);
 
     return (
         <div className="w-full h-full flex-1 p-1 flex flex-col gap-2">
@@ -30,4 +26,4 @@ const page = async ({params, searchParams}: AccomodationsProps) => {
     )
 }
 
-export default page
+export default Page

@@ -22,14 +22,14 @@ const FooterComponent = async () => {
                     <div className=" w-full gap-2 xs:gap-4 grid grid-rows-2 sm:grid-rows-1 grid-flow-col xl:w-fit xs:text-center max-w-4xl 
                     xs:text-lg text-gray-600 border-b-2 xl:border-b-0 border-gray-500 py-2 xl:py-0">
                         {PropertyTypesArray.map((item) => {
-                            return <Link href={`/accomodations?propertyType=${item.value}`}>{item.title}</Link>
+                            return <Link key={item.value} href={`/accomodations?propertyType=${item.value}`}>{item.title}</Link>
                         })}
                     </div>
 
                     <div className="grid grid-flow-col grid-rows-3 font-semibold xs:font-normal 
                     xs:grid-rows-2 sm:grid-rows-1 w-full xl:w-fit gap-2 text-sm text-gray-600 xs:text-center">
                         {LandscapeTypesArray.map((item) => {
-                            return <Link href={`/accomodations?landscapeType=${item.value}&`}>{item.title}</Link>
+                            return <Link key={item.value} href={`/accomodations?landscapeType=${item.value}&`}>{item.title}</Link>
                         })}
                     </div> 
                 </div>
