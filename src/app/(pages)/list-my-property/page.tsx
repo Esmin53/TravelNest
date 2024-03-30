@@ -159,7 +159,7 @@ const ListMyProperty = () => {
         const checkSession = async () => {
             const session = await getSession()
             if(!session) {
-                router.push('http://localhost:3000/sign-in')
+                router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/sign-in`)
             } else {
                 setIsLoading(false)
             }

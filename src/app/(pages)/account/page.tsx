@@ -12,7 +12,7 @@ const MyProfile = async () => {
     const session = await getServerSession(authOptions)
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/account`, {
-        headers: headers()
+        headers: new Headers(headers())
     })
 
     const data: User & {property: Property[]} = await response.json()

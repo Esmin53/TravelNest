@@ -19,7 +19,7 @@ const Overview = async () => {
     }
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/manage`, {
-        headers: headers(),
+        headers: new Headers(headers()),
         cache: 'no-store'
     });
 

@@ -112,7 +112,7 @@ const SearchBar = ({additionalOptions, propertyType ,landscapeType}: {
             shadow-lg sm:shadow-sm" onClick={() => {
 
                 router.push('/')
-                router.push(`http://localhost:3000/accomodations?${additionalOptions}${propertyType && propertyType + '&'}${landscapeType &&landscapeType + '&'}${q.length > 0 ? `q=${q}&` : '' }${rooms.bedrooms > 0 ? `bedrooms=${rooms.bedrooms}&` : '' }${rooms.bathrooms > 0 ? `bathrooms=${rooms.bathrooms}&` : '' }${rooms.rooms > 0 ? `rooms=${rooms.rooms}` : '' }`)
+                router.push(`${process.env.NEXT_PUBLIC_SERVER_URL}/accomodations?${additionalOptions}${propertyType && propertyType + '&'}${landscapeType &&landscapeType + '&'}${q.length > 0 ? `q=${q}&` : '' }${rooms.bedrooms > 0 ? `bedrooms=${rooms.bedrooms}&` : '' }${rooms.bathrooms > 0 ? `bathrooms=${rooms.bathrooms}&` : '' }${rooms.rooms > 0 ? `rooms=${rooms.rooms}` : '' }`)
                 router.refresh()
                 }}>
                 Search
