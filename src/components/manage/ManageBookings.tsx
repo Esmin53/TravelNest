@@ -33,7 +33,7 @@ const ManageBookings = ({id}: ManageProps) => {
     const {mutate: getBookings} = useMutation({
         mutationFn: async () => {
             try {
-                const response = await fetch(`http://localhost:3000/api/bookings?propertyId=${id}&from=${fromDate}&to=${toDate}`)
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/bookings?propertyId=${id}&from=${fromDate}&to=${toDate}`)
 
                 const data = await response.json()
     
