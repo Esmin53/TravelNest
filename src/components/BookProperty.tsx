@@ -114,7 +114,7 @@ const BookProperty = ({price, id, hostId, bookings, propertyName, location}: Boo
             setBookingInfo({...bookingInfo, nights: differenceInDays(bookingInfo.checkOutDate, bookingInfo.checkInDate)})
         }
 
-    }, [])
+    }, [bookingInfo.checkInDate, bookingInfo.checkOutDate])
 
     return (
         <div className="flex xl:flex-1 gap-2 xl:gap-0 lg:flex-row flex-col">
