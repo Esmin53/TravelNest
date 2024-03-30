@@ -1,7 +1,5 @@
-import Accomodation from "@/components/Accomodation";
 import AccomodationsFeed from "@/components/AccomodationsFeed";
 import Search from "@/components/Search"
-import { Property } from "@prisma/client";
 
 interface AccomodationsProps {
     params: string,
@@ -12,7 +10,8 @@ interface AccomodationsProps {
 
 const Page = async ({params, searchParams}: AccomodationsProps) => {
 
-    const queryString = new URLSearchParams()
+    let queryString = new URLSearchParams()
+
 
     for (const key in searchParams) {
         queryString.append(key, searchParams[key]);
