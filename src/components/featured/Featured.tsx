@@ -6,7 +6,7 @@ import Link from "next/link";
 const Featured = async ({data}: {data: string[]}) => {
    
     return (
-        <div className="w-full max-w-7xl gap-6 flex flex-col p-2">
+        <div className="w-full max-w-7xl gap-6 flex flex-col p-4">
             <div className="w-full p-w flex flex-col gap-2">
                  <h1 className="text-xl font-bold">Trending Destinations</h1>
                  <p className="text-gray-500">Most popular choices for travelers worldwide</p>

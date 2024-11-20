@@ -91,8 +91,8 @@ const EditProfileInfo = ({data}: AccountProps) => {
 
                         <AlertDialog>
                             <AlertDialogTrigger asChild disabled={isLoading}>
-                                <button className="w-12 h-12 bg-blue-400 flex justify-center items-center text-white rounded-md shadow-sm
-                                     hover:bg-blue-500">
+                                <button className="w-12 h-12 bg-mainBlue flex justify-center items-center text-white rounded-md shadow-sm
+                                     hover:bg-mainBlue/90">
                                     {isLoading ? <Loader2 className="animate-spin" /> : <Check />}</button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
@@ -121,8 +121,8 @@ const EditProfileInfo = ({data}: AccountProps) => {
                 className="p-1 border-2 border-gray-400 rounded-md min-h-44 xs:min-h-52 w-full outline-none shadow-sm"/>
                 <AlertDialog>
                 <AlertDialogTrigger asChild disabled={isLoading}>
-                <button className="w-full h-10 sm:h-12 rounded-md bg-blue-400 text-white font-sembiold shadow-sm
-                 hover:bg-blue-500 flex items-center justify-center">
+                <button className="w-full h-10 sm:h-12 rounded-md bg-mainBlue text-white font-sembiold shadow-sm
+                 hover:bg-mainBlue/90 flex items-center justify-center">
                     {isLoading ? <Loader2 className="animate-spin" /> : 'Update description'}
                 </button>
                 </AlertDialogTrigger>

@@ -8,7 +8,7 @@ const TopRatedProperties = ({data}: {
 }) => {
 
     return (
-            <div className="max-w-7xl w-full flex flex-col gap-2 px-2 sm:px-0 py-4">
+            <div className="max-w-7xl w-full flex flex-col gap-2 p-4">
                 <div className="w-full py-2 flex flex-col gap-2">
                     <h1 className="text-xl font-bold">Guest favourite accomodations</h1>
                     <p className="text-gray-500">Best rated and reviewed accomodations by our users</p>

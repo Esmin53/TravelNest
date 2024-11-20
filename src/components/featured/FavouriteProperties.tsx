@@ -12,8 +12,8 @@ const FavouriteProperties = ({properties}: {
     const router = useRouter();
 
     return (
-        <div className="max-w-7xl w-full p-w flex flex-col gap-2 px-2 sm:px-0">
-                 <h1 className="text-xl font-bold">Accomodations guests love</h1>
+        <div className="max-w-7xl w-full p-w flex flex-col gap-2 p-4">
+                 <h1 className="flex-shrink text-xl font-bold whitespace-nowrap">Accomodations guests love</h1>
                  <p className="text-gray-500">Most popular accomodations by number of stays</p>
                  {properties.length ? <Carousel>
                     <CarouselContent className="-ml-1 h-64 xs:h-72">

@@ -336,7 +336,7 @@ const ListMyProperty = () => {
                          title="Heating" data={data.heating} icon={<Heater />} />
                     </div>
 
-                    <button className="w-full h-10 sm:h-12 hover:bg-blue-500 bg-blue-400 text-white 
+                    <button className="w-full h-10 sm:h-12 hover:bg-mainBlue/90 bg-mainBlue text-white 
                     rounded-md font-bold flex justify-center items-center mt-4 sm:mt-10" onClick={async (e) => {
                         e.preventDefault()
                         checkData()

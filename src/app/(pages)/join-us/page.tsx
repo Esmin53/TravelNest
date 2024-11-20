@@ -47,7 +47,7 @@ const JoinUs = () => {
                         <CheckCircle className="w-7 h-7"/>
                         <p className="flex-1">From confirming bookings to facilitating hassle-free arrivals and departures, we&apos;ve got you covered</p>
                     </div>
-                    <Link href='/list-my-property' className="w-full sm:w-96 h-10 sm:h-12 bg-blue-400 hover:bg-blue-500 font-semibold rounded-md
+                    <Link href='/list-my-property' className="w-full sm:w-96 h-10 sm:h-12 bg-mainBlue hover:bg-mainBlue/90 font-semibold rounded-md
                      text-white mt-4 flex justify-center items-center">Get started</Link >
                 </div>
                 <div className="relative w-full md:w-3/4 lg:w-1/2 h-56 xs:sm-64 sm:h-80 md:h-96">

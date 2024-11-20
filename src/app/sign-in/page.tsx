@@ -14,7 +14,7 @@ const SignIn = () => {
                 <p className="text-center xs:my-2 xs:text-md text-xs">
                     Start planning your journey anywhere in the world, or list your property with just a few clicks.
                 </p>
-                <button className="w-full h-10 xs:h-12 rounded-md text-white bg-blue-500 hover:bg-blue-400 font-semibold my-1 xs:my-2"
+                <button className="w-full h-10 xs:h-12 rounded-md text-white bg-mainBlue hover:bg-mainBlue/90 font-semibold my-1 xs:my-2"
                 onClick={() => {
                     setIsLoading(true)
                     signIn('google', {redirect: true, callbackUrl: 'http://localhost:3000'})

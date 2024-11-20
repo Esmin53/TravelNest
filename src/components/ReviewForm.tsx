@@ -109,8 +109,8 @@ const ReviewForm = ({propertyId, alreadyReviewed}: { propertyId: string, already
                 }} id="updateReviewForm">
                 <textarea placeholder="Write about your stay" value={review} onChange={(e) => setReview(e.target.value)}
                 className="p-1 border-2 border-gray-300 rounded-md min-h-44 xs:min-h-52 w-full outline-none shadow-md"/>
-                <button className="w-full h-10 sm:h-12 rounded-md bg-blue-400 text-white font-sembiold shadow-sm 
-                hover:bg-blue-500 flex items-center justify-center"
+                <button className="w-full h-10 sm:h-12 rounded-md bg-mainBlue text-white font-sembiold shadow-sm 
+                hover:bg-mainBlue/90 flex items-center justify-center"
                 type="submit" form="updateReviewForm">
                     {isLoading ? <Loader2 className="animate-spin" /> : 'Update your review'}
                 </button>
@@ -123,8 +123,8 @@ const ReviewForm = ({propertyId, alreadyReviewed}: { propertyId: string, already
                 }} id="postReviewForm">
                 <textarea placeholder="Write about your stay" value={review} onChange={(e) => setReview(e.target.value)}
                 className="p-1 border-2 border-gray-300 rounded-md min-h-44 xs:min-h-52 w-full outline-none shadow-md"/>
-                <button className="w-full h-10 sm:h-12 rounded-md bg-blue-400 text-white font-sembiold shadow-sm
-                 hover:bg-blue-500 flex items-center justify-center"
+                <button className="w-full h-10 sm:h-12 rounded-md bg-mainBlue text-white font-sembiold shadow-sm
+                 hover:bg-mainBlue/90 flex items-center justify-center"
                 type="submit" form="postReviewForm">
                     {isLoading ? <Loader2 className="animate-spin" /> : 'Publish your review'}
                 </button>

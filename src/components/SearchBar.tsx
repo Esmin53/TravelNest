@@ -108,7 +108,7 @@ const SearchBar = ({additionalOptions, propertyType ,landscapeType}: {
               </PopoverContent>
             </Popover>
   
-            <button className="py-2 px-4 rounded-sm hover:bg-blue-500 bg-blue-400 text-white font-semibold 
+            <button className="py-2 px-4 rounded-sm hover:bg-mainBlue/85 bg-mainBlue text-white font-semibold 
             shadow-lg sm:shadow-sm" onClick={() => {
 
                 router.push('/')

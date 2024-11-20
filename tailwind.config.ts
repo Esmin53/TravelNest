@@ -1,3 +1,4 @@
+import { transform } from "next/dist/build/swc"
 import type { Config } from "tailwindcss"
 const defaultTheme = require('tailwindcss/defaultTheme')
 
@@ -24,6 +25,7 @@ const config = {
     },
     extend: {
       colors: {
+        mainBlue: "#429ccf",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -72,10 +74,20 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "slide-in": {
+          from: {transform: 'translateX(100%)'},
+          to: {transform: 'translateX(0px)'},
+        },
+        "slide-out": {
+          from: {transform: 'translateX(0px)'},
+          to: {transform: 'translateX(100%)'},
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-in": "slide-in 0.3s ease-in-out forwards",
+        "slide-out": "slide-out 0.3s ease-in-out forwards"
       },
     },
   },

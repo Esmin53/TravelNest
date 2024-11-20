@@ -4,9 +4,9 @@ import Link from "next/link";
 const LandscapeType  = () => {
 
     return (
-        <div className="w-full max-w-7xl flex flex-col py-4 gap-2">
-        <h1 className="text-xl font-semibold px-2 sm:px-0">Find land that suits your style</h1>
-        <p className="text-gray-500 px-2 sm:px-0">Choose between cities, mountains, beacheas and 7 more</p>
+        <div className="w-full max-w-7xl flex flex-col gap-2 p-4">
+        <h1 className="text-xl font-semibold">Find land that suits your style</h1>
+        <p className="text-gray-500">Choose between cities, mountains, beacheas and 7 more</p>
         <div className="grid-rows-2 sm:grid-rows-1 grid grid-flow-col gap-1">
             <Link href='/accomodations?landscapeType=city&' className="flex flex-col gap cursor-pointer items-center">
                 <div className="sm:w-14 w-12 sm:h-14 h-12 rounded-sm flex flex-col items-center justify-center">
